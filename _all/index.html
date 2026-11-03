@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>all logo versions</title>
+<style>
+ body{margin:0;background:#3d3d3d;font:12px system-ui;color:#eee;padding:14px}
+ .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1150px}
+ .cell{border-radius:9px;padding:10px;text-align:center}
+ .dark{background:#1c1c1c}.light{background:#fff;color:#222}
+ .cell img{width:300px;height:300px;display:block;margin:0 auto;object-fit:contain}
+ .cap{font-weight:600;margin-bottom:6px;font-size:12px}
+ .sub{font-size:10px;opacity:.75;margin-top:5px;line-height:1.35}
+ .tag{display:inline-block;font-size:9px;padding:1px 5px;border-radius:999px;background:#555;color:#fff;margin-left:5px}
+ .cur{background:#2f6b2f}.old{background:#7a4a1e}
+</style></head><body>
+<div class="grid">
+
+ <div class="cell dark">
+   <div class="cap">1. Reference (logo.png)</div><img src="logo.png">
+   <div class="sub">the extracted 500x500 raster, white ink on transparency</div>
+ </div>
+
+ <div class="cell dark">
+   <div class="cap">2. logo.svg <span class="tag cur">current</span></div><img src="logo.svg">
+   <div class="sub">500x500 viewBox, 1 unit = 1 px, measured + fitted</div>
+ </div>
+
+ <div class="cell dark">
+   <div class="cap">3. logo-subpixel-trace.svg <span class="tag old">superseded</span></div><img src="logo-subpixel-trace.svg">
+   <div class="sub">sub-pixel fitted trace, closest to the source (IoU 0.988)</div>
+ </div>
+
+ <div class="cell dark">
+   <div class="cap">4. logo-primitives-1000.svg <span class="tag old">superseded</span></div><img src="logo-primitives-1000.svg">
+   <div class="sub">earlier primitive build on a 1000x1000 grid</div>
+ </div>
+
+ <div class="cell light">
+   <div class="cap">5. logo-dark.svg</div><img src="logo-dark.svg">
+   <div class="sub">dark ink, for light backgrounds</div>
+ </div>
+
+ <div class="cell light">
+   <div class="cap">6. logo-mono.svg</div><img src="logo-mono.svg" style="color:#16240a">
+   <div class="sub">single colour, inherits <code>color</code></div>
+ </div>
+
+ <div class="cell light">
+   <div class="cap">7. favicon.svg</div><img src="favicon.svg">
+   <div class="sub">cropped square, dark ink</div>
+ </div>
+
+ <div class="cell light">
+   <div class="cap">8. jpg/logo-dark-on-white.jpg</div><img src="jpg_dark_on_white.jpg">
+   <div class="sub">flattened JPEG for light placements</div>
+ </div>
+
+ <div class="cell dark">
+   <div class="cap">9. jpg/logo-white-on-dark.jpg</div><img src="jpg_white_on_dark.jpg">
+   <div class="sub">flattened JPEG on #111</div>
+ </div>
+
+</div>
+</body></html>

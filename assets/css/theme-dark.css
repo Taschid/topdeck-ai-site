@@ -1,0 +1,466 @@
+/* ==========================================================================
+   theme-dark.css - black + orange skin for the static site
+
+   Derived from the Top Deck Ai brand system (email signature / header):
+     accent    #E4501C   ink    #101216   ink-2  #16181D
+     muted     #5C6473   line   #E4E6EA   warm   #F7F4EE
+   The accent appears as a thick top rule, thin dividers, icon tints and
+   solid action blocks, with warm off-white type on near-black surfaces.
+
+   Everything is scoped to html[data-theme="dark"], so the neutral light theme
+   and every page that does not opt in are untouched. To theme another page,
+   add data-theme="dark" to its <html> tag and link this file after
+   components.css.
+   ========================================================================== */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* ---------- brand palette ---------- */
+  --td-accent: #e4501c;
+  --td-accent-hover: #f2662f;
+  --td-accent-soft: #ff8b5e;
+  --td-live: #4ade80;
+  --td-ink: #101216;
+  --td-ink-2: #16181d;
+  --td-elevated: #1c1f25;
+  --td-deep: #0b0c0f;
+  --td-warm: #f7f4ee;
+  --td-text: #c3c7cf;
+  --td-muted: #8a92a0;
+  --td-hairline: rgba(228, 230, 234, 0.14);
+  --td-hairline-strong: rgba(228, 230, 234, 0.28);
+
+  /* ---------- theme tokens (overrides tokens.css) ---------- */
+  --c-primary: var(--td-accent);
+  --c-primary-dark: var(--td-ink);
+  --c-tertiary: var(--td-accent-soft);
+  --c-accent: var(--td-accent);
+  --c-accent-hover: var(--td-accent-soft);
+  --c-heading: var(--td-warm);
+  --c-text: var(--td-text);
+  --c-text-strong: #e7e9ed;
+  --c-muted: var(--td-muted);
+  --c-white: var(--td-warm);
+
+  --c-bg: var(--td-ink);
+  --c-bg-light: #14161b;
+  --c-bg-neutral: #121419;
+  --c-bg-dark: #0e1014;
+  --c-footer: #0a0b0e;
+
+  --c-border: var(--td-hairline);
+  --c-border-strong: var(--td-hairline-strong);
+  --c-shadow: rgba(0, 0, 0, 0.55);
+
+  /* ---------- compatibility aliases (forminator / copied rules) ---------- */
+  --color-primary: var(--td-accent);
+  --color-primary-dark: var(--td-ink);
+  --color-secondary: var(--td-ink);
+  --color-tertiary: var(--td-accent-soft);
+  --color-accent: var(--td-accent);
+  --color-white: var(--td-warm);
+  --color-text: var(--td-text);
+  --color-text-dark: #e7e9ed;
+  --color-text-grey: #9ba3b0;
+  --color-text-light-grey: #6b7280;
+  --color-bg-light: #14161b;
+  --color-bg-neutral: #121419;
+  --color-bg-dark: #0e1014;
+  --color-border-light: rgba(228, 230, 234, 0.1);
+  --color-border-medium: rgba(228, 230, 234, 0.28);
+  --color-border-dark: rgba(228, 230, 234, 0.45);
+  --color-shadow: rgba(0, 0, 0, 0.55);
+  --color-hover: var(--td-accent-hover);
+}
+
+/* ---------------------------------------------------------------- base ---- */
+html[data-theme="dark"] body {
+  background: var(--c-bg);
+  color: var(--td-text);
+}
+
+html[data-theme="dark"] a { color: var(--td-accent-soft); }
+html[data-theme="dark"] a:hover { color: var(--td-accent); }
+html[data-theme="dark"] strong { color: var(--td-warm); }
+html[data-theme="dark"] .accent-text { color: var(--td-accent-soft); }
+
+html[data-theme="dark"] ::selection {
+  background: var(--td-accent);
+  color: var(--td-ink);
+}
+html[data-theme="dark"] :focus-visible {
+  outline: 2px solid var(--td-accent-soft);
+  outline-offset: 3px;
+}
+
+/* Thin vermilion brand rule across the very top, like the email header. */
+html[data-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--td-accent);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------- chrome --- */
+html[data-theme="dark"] .topbar {
+  background: var(--td-deep);
+  color: #a7aebb;
+  border-bottom: 1px solid var(--td-hairline);
+}
+html[data-theme="dark"] .topbar a:hover { color: var(--td-accent-soft); }
+
+html[data-theme="dark"] .site-header {
+  background: var(--td-ink);
+  box-shadow: 0 1px 0 var(--td-hairline), 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+html[data-theme="dark"] .brand__name { color: var(--td-warm); }
+html[data-theme="dark"] .brand__tag { color: var(--td-muted); }
+html[data-theme="dark"] .brand__mark {
+  width: auto;
+  height: 5.6rem;
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-theme="dark"] .nav__list a { color: #d7dae0; }
+html[data-theme="dark"] .nav__list a:hover,
+html[data-theme="dark"] .nav__list a[aria-current="page"] { color: var(--td-accent-soft); }
+
+html[data-theme="dark"] .nav__sub {
+  /* Flush: no panel fill, no edge, no drop shadow. Links sit on the page. */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0.6rem 0.4rem;
+}
+html[data-theme="dark"] .nav__sub a:hover {
+  background: var(--td-elevated);
+  color: var(--td-accent-soft);
+}
+html[data-theme="dark"] .nav__sub--mega {
+  background: var(--td-ink-2);
+  border: 1px solid var(--td-hairline);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+html[data-theme="dark"] .nav__sub-title { color: var(--td-muted); }
+html[data-theme="dark"] .nav__sub-all { border-top-color: var(--td-hairline); }
+html[data-theme="dark"] .nav__sub-all a { color: var(--td-accent-soft); }
+html[data-theme="dark"] .nav__sub-all a:hover { color: var(--td-accent); }
+html[data-theme="dark"] .nav-toggle span { background: var(--td-warm); }
+
+html[data-theme="dark"] .header-call {
+  background: var(--td-ink-2);
+  box-shadow: inset 0 0 0 1px rgba(228, 80, 28, 0.55);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .header-call:hover {
+  background: var(--td-elevated);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .header-call .cta-icon path,
+html[data-theme="dark"] .header-call svg path { fill: var(--td-warm); }
+html[data-theme="dark"] .header-call i { color: var(--td-warm); }
+
+html[data-theme="dark"] .nav-backdrop { background: rgba(5, 6, 8, 0.72); }
+html[data-theme="dark"] .nav__close { color: var(--td-warm); }
+
+/* ---------------------------------------------------------------- hero ---- */
+html[data-theme="dark"] .hero {
+  background: var(--td-deep);
+}
+html[data-theme="dark"] .hero__bg {
+  background-color: var(--td-deep);
+  background-image:
+    radial-gradient(80rem 46rem at 78% 6%, rgba(228, 80, 28, 0.3), transparent 62%),
+    linear-gradient(180deg, rgba(11, 12, 15, 0.72), rgba(11, 12, 15, 0.94)),
+    url("../img/dark/hero-bg.svg");
+}
+html[data-theme="dark"] .hero h1 { color: var(--td-warm); }
+html[data-theme="dark"] .hero h1 .accent-text { color: var(--td-accent-soft); }
+html[data-theme="dark"] .hero p { color: rgba(247, 244, 238, 0.78); }
+html[data-theme="dark"] .rating__text { color: var(--td-warm); }
+
+html[data-theme="dark"] .trust-list li {
+  background: rgba(247, 244, 238, 0.06);
+  border: 1px solid rgba(247, 244, 238, 0.1);
+}
+html[data-theme="dark"] .trust-list .icon-badge {
+  background: rgba(228, 80, 28, 0.16);
+  border: 1px solid rgba(228, 80, 28, 0.42);
+}
+html[data-theme="dark"] .trust-list .icon-badge svg { fill: var(--td-accent-soft); }
+html[data-theme="dark"] .trust-list .icon-badge i { color: var(--td-accent-soft); }
+
+/* ----------------------------------------------------------- quote card --- */
+html[data-theme="dark"] .quote-card { color: var(--td-text); }
+html[data-theme="dark"] .quote-card__head {
+  background: var(--td-accent);
+  color: var(--td-ink);
+  border-bottom: 5px solid var(--td-ink);
+}
+html[data-theme="dark"] .quote-card__head h2 { color: var(--td-ink); }
+html[data-theme="dark"] .quote-card__head p { color: var(--td-ink); }
+html[data-theme="dark"] .quote-card__panel {
+  background: var(--td-ink-2);
+  border-color: var(--td-hairline);
+  border-width: 0 5px 5px;
+}
+html[data-theme="dark"] .quote-card .quote-card__note { color: var(--td-muted); }
+
+/* ----------------------------------------------------------- sections ----- */
+html[data-theme="dark"] .section--light { background: var(--c-bg-light); }
+html[data-theme="dark"] .section--neutral { background: var(--c-bg-neutral); }
+html[data-theme="dark"] .section--dark { background: var(--td-deep); }
+
+html[data-theme="dark"] .eyebrow {
+  color: var(--td-accent-soft);
+  letter-spacing: 0.12em;
+}
+html[data-theme="dark"] .section-intro p { color: var(--td-text); }
+
+/* --------------------------------------------------------------- cards ---- */
+html[data-theme="dark"] .service-card,
+html[data-theme="dark"] .step-card,
+html[data-theme="dark"] .review,
+html[data-theme="dark"] .faq-item,
+html[data-theme="dark"] .brand-card {
+  background: var(--td-ink-2);
+  border: 1px solid var(--td-hairline);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 16px 34px rgba(0, 0, 0, 0.4);
+}
+html[data-theme="dark"] .service-card:hover {
+  border-color: rgba(228, 80, 28, 0.55);
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(228, 80, 28, 0.28);
+}
+/* Echo the signature card's thick vermilion edge on testimonial cards. */
+html[data-theme="dark"] .review { border-left: 4px solid var(--td-accent); }
+html[data-theme="dark"] .service-card__title { color: var(--td-warm); }
+html[data-theme="dark"] .link-more { color: var(--td-accent-soft); }
+html[data-theme="dark"] .link-more:hover { color: var(--td-accent); }
+
+html[data-theme="dark"] .feature__icon { background: rgba(228, 80, 28, 0.13); }
+html[data-theme="dark"] .feature__icon svg { fill: var(--td-accent-soft); }
+html[data-theme="dark"] .feature__icon i { color: var(--td-accent-soft); }
+html[data-theme="dark"] .step-card__num { color: rgba(228, 80, 28, 0.45); }
+
+html[data-theme="dark"] .stat__value { color: var(--td-accent-soft); }
+html[data-theme="dark"] .stat__label { color: var(--td-muted); }
+
+html[data-theme="dark"] .review__name { color: var(--td-warm); }
+html[data-theme="dark"] .review__text { color: var(--td-text); }
+html[data-theme="dark"] .slider__btn {
+  background: var(--td-ink-2);
+  border: 1px solid var(--td-hairline-strong);
+}
+html[data-theme="dark"] .slider__btn svg { fill: var(--td-warm); }
+html[data-theme="dark"] .slider__btn:hover {
+  background: var(--td-accent);
+  border-color: var(--td-accent);
+}
+html[data-theme="dark"] .slider__btn:hover svg { fill: var(--td-ink); }
+
+html[data-theme="dark"] .faq-item__q { color: var(--td-warm); }
+html[data-theme="dark"] .faq-item__icon { color: var(--td-accent-soft); }
+html[data-theme="dark"] .faq-item__a { color: var(--td-text); }
+
+html[data-theme="dark"] .brand-card { background: #14161b; }
+
+/* --------------------------------------------------------------- buttons -- */
+html[data-theme="dark"] .btn--primary,
+html[data-theme="dark"] .btn--accent {
+  background: var(--td-accent);
+  color: var(--td-ink);
+}
+html[data-theme="dark"] .btn--primary:hover,
+html[data-theme="dark"] .btn--accent:hover {
+  background: var(--td-accent-hover);
+  color: var(--td-ink);
+}
+html[data-theme="dark"] .btn--dark {
+  background: var(--td-ink-2);
+  color: var(--td-warm);
+  border: 1px solid var(--td-hairline-strong);
+}
+html[data-theme="dark"] .btn--dark:hover {
+  background: var(--td-elevated);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .btn--ghost {
+  color: var(--td-warm);
+  border-color: var(--td-hairline-strong);
+}
+html[data-theme="dark"] .btn--ghost:hover {
+  background: var(--td-accent);
+  border-color: var(--td-accent);
+  color: var(--td-ink);
+}
+
+/* Home services CTA: square corners, white lettering, wider than the call CTA. */
+html[data-theme="dark"] .btn.btn--see-all {
+  border-radius: 0;
+  color: #fff;
+  justify-content: center;
+  min-width: 24rem;
+}
+html[data-theme="dark"] .btn.btn--see-all:hover { color: #fff; }
+
+/* hero CTA pair: dark call button, solid orange quote button */
+html[data-theme="dark"] .cta-btn { color: var(--td-warm); }
+html[data-theme="dark"] .cta-btn.call-btn--primary {
+  background: var(--td-ink-2);
+  border: 1px solid rgba(228, 80, 28, 0.55);
+}
+html[data-theme="dark"] .cta-btn.call-btn--primary:hover { background: var(--td-elevated); }
+html[data-theme="dark"] .cta-btn.quote-btn--secondary { background: var(--td-accent); }
+html[data-theme="dark"] .cta-btn.quote-btn--secondary:hover { background: var(--td-accent-hover); }
+html[data-theme="dark"] .cta-btn.quote-btn--secondary .cta-btn__label,
+html[data-theme="dark"] .cta-btn.quote-btn--secondary .cta-btn__number { color: #fff; }
+/* White speech bubble (keeps its 50% two-tone) and white typing bars. */
+html[data-theme="dark"] .cta-btn.quote-btn--secondary .cta-icon > path:first-child { fill: #fff; }
+html[data-theme="dark"] .cta-btn.quote-btn--secondary .typing-path { stroke: #fff; }
+
+/* ------------------------------------------------------------- cta band --- */
+html[data-theme="dark"] .cta-band { background: var(--td-accent); color: var(--td-ink); }
+html[data-theme="dark"] .cta-band h2 { color: var(--td-ink); }
+html[data-theme="dark"] .cta-band p { color: var(--td-ink); }
+html[data-theme="dark"] .cta-band a { color: var(--td-ink); }
+html[data-theme="dark"] .cta-band a:hover {
+  color: var(--td-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Phone link in the CTA band: white text (and white icon via currentColor). */
+html[data-theme="dark"] .cta-band .cta-contact__item,
+html[data-theme="dark"] .cta-band .cta-contact__item:hover {
+  color: #fff;
+}
+
+/* The band is solid orange, so its button must invert to ink to stay visible. */
+html[data-theme="dark"] .cta-band .btn,
+html[data-theme="dark"] .cta-band .btn--accent {
+  background: var(--td-ink);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .cta-band .btn:hover,
+html[data-theme="dark"] .cta-band .btn--accent:hover {
+  background: var(--td-elevated);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .cta-band .btn svg path { fill: var(--td-warm); }
+
+/* --------------------------------------------------------------- footer --- */
+html[data-theme="dark"] .site-footer {
+  background: var(--c-footer);
+  color: #9ba3b0;
+}
+html[data-theme="dark"] .site-footer h3 { color: var(--td-warm); }
+html[data-theme="dark"] .site-footer a:hover { color: var(--td-accent-soft); }
+html[data-theme="dark"] .site-footer .contact-line svg { fill: var(--td-accent-soft); }
+html[data-theme="dark"] .site-footer .contact-line i { color: var(--td-accent-soft); }
+html[data-theme="dark"] .site-footer__bottom { border-top-color: var(--td-hairline); }
+
+/* ------------------------------------------------------------ page hero --- */
+html[data-theme="dark"] .page-hero { background: var(--c-bg-light); }
+html[data-theme="dark"] .breadcrumb { color: var(--td-muted); }
+html[data-theme="dark"] .breadcrumb a { color: var(--td-accent-soft); }
+
+/* -------------------------------------------------------------- forms ----- */
+html[data-theme="dark"] .quote-card .forminator-label,
+html[data-theme="dark"] .quote-card .forminator-label span { color: #a7aebb; }
+html[data-theme="dark"] .quote-card .forminator-required { color: var(--td-accent-soft); }
+
+html[data-theme="dark"] .quote-card .forminator-input,
+html[data-theme="dark"] .quote-card .forminator-textarea {
+  background-color: #0f1115 !important;
+  color: var(--td-warm) !important;
+  border: 1px solid #2a2e36 !important;
+  border-radius: 2px;
+}
+html[data-theme="dark"] .quote-card .forminator-input:focus,
+html[data-theme="dark"] .quote-card .forminator-textarea:focus {
+  border-color: var(--td-accent) !important;
+  outline: 2px solid var(--td-accent-soft) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(228, 80, 28, 0.2) !important;
+}
+html[data-theme="dark"] .quote-card .forminator-input::placeholder,
+html[data-theme="dark"] .quote-card .forminator-textarea::placeholder { color: #6b7280; }
+
+html[data-theme="dark"] .forminator-button.forminator-button-submit {
+  background-color: var(--td-accent) !important;
+  color: var(--td-ink) !important;
+  font-weight: 600;
+}
+html[data-theme="dark"] .forminator-button.forminator-button-submit:hover {
+  background-color: var(--td-accent-hover) !important;
+  color: var(--td-ink) !important;
+}
+/* Forminator's ID-scoped theme ships a blue #254DEB focus outline; keep the brand ring. */
+html[data-theme="dark"] .forminator-button.forminator-button-submit:focus,
+html[data-theme="dark"] .forminator-button.forminator-button-submit:focus-visible {
+  outline: 2px solid var(--td-accent-soft) !important;
+  outline-offset: 2px !important;
+}
+
+html[data-theme="dark"] .form-status.is-success {
+  background: rgba(46, 160, 96, 0.16);
+  color: #6ee7a8;
+  border: 1px solid rgba(110, 231, 168, 0.32);
+}
+html[data-theme="dark"] .form-status.is-error {
+  background: rgba(228, 80, 28, 0.16);
+  color: #ff9b78;
+  border: 1px solid rgba(228, 80, 28, 0.4);
+}
+
+/* ----------------------------------------------------------- utilities ---- */
+html[data-theme="dark"] .placeholder {
+  background:
+    linear-gradient(135deg, rgba(228, 80, 28, 0.18), rgba(228, 80, 28, 0.04)),
+    repeating-linear-gradient(45deg, #14161b 0 12px, #101216 12px 24px);
+  color: var(--td-muted);
+  border: 1px solid var(--td-hairline);
+}
+html[data-theme="dark"] .skip-link {
+  background: var(--td-accent);
+  color: var(--td-ink);
+}
+html[data-theme="dark"] .skip-link:focus {
+  color: var(--td-ink);
+  outline-color: var(--td-warm);
+}
+
+/* Mobile sticky call bar: orange border on the bar, CTA matches the hero call button. */
+html[data-theme="dark"] .sticky-call {
+  background-color: var(--td-ink-2);
+  border: 1px solid rgba(228, 80, 28, 0.55);
+}
+html[data-theme="dark"] .sticky-call .cta-btn {
+  background: var(--td-ink-2);
+  color: var(--td-warm);
+}
+html[data-theme="dark"] .sticky-call .cta-btn:hover { background: var(--td-elevated); }
+html[data-theme="dark"] .sticky-call .cta-btn .cta-icon path { fill: var(--td-warm); }
+html[data-theme="dark"] .sticky-call .cta-btn__label,
+html[data-theme="dark"] .sticky-call .cta-btn__number { color: var(--td-warm); }
+
+@media (max-width: 478px) {
+  html[data-theme="dark"] .site-header__inner > .brand .brand__mark {
+    width: auto;
+    height: 4.4rem;
+  }
+}
+
+@media (max-width: 991px) {
+  html[data-theme="dark"] .nav__sub--mega {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+}

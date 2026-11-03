@@ -1,0 +1,139 @@
+/* ==========================================================================
+   tokens.css - design tokens + fonts
+   Neutral theme extracted from a reference design system.
+   Re-skin the site by editing the "theme" block below.
+   ========================================================================== */
+
+/* ---------- fonts (open-licensed: Roboto & Teko, SIL OFL) ---------- */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/roboto-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/roboto-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Teko';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../fonts/teko-normal.woff2') format('woff2');
+}
+
+:root {
+  /* ---------- theme (re-skin here) ---------- */
+  --c-primary: #0375c6;
+  --c-primary-dark: #0c224b;
+  /* accent darkened from #ff6d00 to meet WCAG AA (4.5:1) on white and for white-on-accent buttons.
+     Revert to #ff6d00 if you prefer the original look over the contrast ratio. */
+  --c-accent: #b85000;
+  --c-accent-hover: #8f3e00;
+  --c-heading: #0c224b;
+  --c-text: #62666a;
+  --c-text-strong: #2d3034;
+  --c-muted: #8b9096;
+  --c-white: #ffffff;
+
+  --c-bg: #ffffff;
+  --c-bg-light: #f3f3f3;
+  --c-bg-neutral: #f9fafb;
+  --c-bg-dark: #1e2023;
+  --c-footer: #121417;
+
+  --c-border: rgba(15, 56, 87, 0.12);
+  --c-border-strong: rgba(15, 56, 87, 0.3);
+  --c-shadow: rgba(15, 56, 87, 0.15);
+
+  /* Aliases for the reference's own token names. Some rules in components.css were copied from the
+     live site and reference these names directly (see the button-transition block). `--color-hover`
+     was missing, so `background-color: var(--color-hover)` was invalid at computed-value time and the
+     background fell back to transparent - which is why .btn--primary/.btn--accent/.btn--dark/
+     .btn--ghost/.header-call/.cta-btn all VANISHED on hover. Value read from the live site's own
+     :root (getComputedStyle), not guessed. */
+  --color-hover: #1aa299;
+  --color-tertiary: #71ccec;
+
+  /* ---------- typography ---------- */
+  --font-body: 'Roboto', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Teko', 'Roboto', system-ui, sans-serif;
+
+  --fs-xs: 1.2rem;
+  --fs-sm: 1.4rem;
+  --fs-base: 1.6rem;
+  --fs-md: 1.8rem;
+  --fs-lg: clamp(2rem, 1.6rem + 0.6vw, 2.2rem);
+  --fs-xl: clamp(2rem, 1.8rem + 0.8vw, 2.6rem);
+  --fs-2xl: clamp(2.4rem, 2rem + 1vw, 3.2rem);
+  --fs-3xl: clamp(2.8rem, 2.4rem + 1.2vw, 3.8rem);
+  --fs-4xl: clamp(3.2rem, 2.6rem + 1.4vw, 4.4rem);
+  --fs-5xl: clamp(3.6rem, 2.8rem + 1.6vw, 5rem);
+  --fs-6xl: clamp(4rem, 3rem + 1.8vw, 5.6rem);
+
+  --lh-tight: 1.1;
+  --lh-heading: 1.2;
+  --lh-base: 1.7;
+
+  /* ---------- spacing ---------- */
+  --sp-xs: 0.4rem;
+  --sp-sm: 0.8rem;
+  --sp-md: 1.6rem;
+  --sp-lg: 2.4rem;
+  --sp-xl: 3rem;
+  --sp-2xl: clamp(3rem, 3.4rem + 0.5vw, 4rem);
+  --sp-3xl: clamp(3.2rem, 3.8rem + 0.6vw, 5rem);
+  --sp-4xl: clamp(3.6rem, 1rem + 2vw, 6rem);
+  --sp-5xl: clamp(4rem, 5rem + 1vw, 7rem);
+  --sp-6xl: clamp(4.4rem, 5.6rem + 1.2vw, 8rem);
+
+  /* ---------- layout ---------- */
+  --container: 1320px;
+  --container-narrow: 900px;
+  /* Live's page gutter is a flat 36px, dropping to 20px at <=478px (the same mobile threshold
+     as the header). Measured on the oracle where the container resolves to calc(100% - 72px) at
+     1360/1200/1024/992/768/600/480 and calc(100% - 40px) at 390. This replaces
+     clamp(2rem, 3vw, 3rem): its 30px desktop cap was never measured - plan 001 only verified the
+     400x802 mobile case, where 20px still holds and is unaffected by this change. */
+  --gutter: 3.6rem;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 2px var(--c-shadow);
+  --shadow-md: 0 8px 24px var(--c-shadow);
+  --transition: 0.2s ease;
+  --header-h: 9rem;
+
+  /* ---------- compatibility aliases ----------
+     The reference site's own component CSS (Forminator / Bricks) resolves these names.
+     Values are the source site's values, so those components render exactly as they do there. */
+  --color-primary: #0375c6;
+  --color-primary-dark: #0c224b;
+  --color-secondary: #0c224b;
+  --color-tertiary: #71ccec;
+  --color-accent: #b85000;
+  --color-white: #ffffff;
+  --color-text: #62666a;
+  --color-text-dark: #2d3034;
+  --color-text-grey: #62696f;
+  --color-text-light-grey: #bbc0c3;
+  --color-bg-light: #f3f3f3;
+  --color-bg-neutral: #f9fafb;
+  --color-bg-dark: #1e2023;
+  --color-border-light: rgba(15, 56, 87, 0.1);
+  --color-border-medium: rgba(15, 56, 87, 0.3);
+  --color-border-dark: rgba(15, 56, 87, 0.6);
+  --color-shadow: rgba(15, 56, 87, 0.15);
+}
+
+/* Live drops the page gutter to 20px on the narrowest phones (measured x=20 on the oracle at
+   390, against x=36 at 480). Same 478px threshold the header uses. */
+@media (max-width: 478px) {
+  :root { --gutter: 2rem; }
+}

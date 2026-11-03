@@ -1,0 +1,154 @@
+/* ==========================================================================
+   base.css - reset, typography, layout primitives, buttons
+   ========================================================================== */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+svg { display: block; }
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--sp-md);
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: var(--lh-heading);
+  color: var(--c-heading);
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: var(--fs-5xl); line-height: var(--lh-tight); }
+h2 { font-size: var(--fs-4xl); }
+h3 { font-size: var(--fs-2xl); }
+h4 { font-size: var(--fs-xl); }
+
+p { margin: 0 0 var(--sp-md); }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--c-primary); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--c-accent-hover); }
+
+ul { margin: 0 0 var(--sp-md); padding-left: 1.2em; }
+li { margin-bottom: 0.4em; }
+
+strong { color: var(--c-text-strong); }
+
+::selection { background: var(--c-primary); color: #fff; }
+
+/* focus visibility for accessibility */
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+
+/* ---------- layout ---------- */
+.container {
+  /* Live keeps the gutter OUTSIDE the 1320px cap - its container resolves to calc(100% - 72px)
+     with padding 0 - so the content starts at x=60 on a 1440 screen and x=36 from 1200 down to
+     480. Padding the inside instead (width: 100%) puts content 30px too far in at 1440. */
+  width: calc(100% - (2 * var(--gutter)));
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 0;
+}
+.container--narrow { max-width: var(--container-narrow); }
+
+.section { padding-block: var(--sp-5xl); }
+.section--tight { padding-block: var(--sp-3xl); }
+.section--light { background: var(--c-bg-light); }
+.section--neutral { background: var(--c-bg-neutral); }
+.section--dark { background: var(--c-bg-dark); color: rgba(255, 255, 255, 0.85); }
+.section--dark h1, .section--dark h2, .section--dark h3 { color: #fff; }
+
+.grid { display: grid; gap: var(--sp-lg); }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+.stack > * + * { margin-top: var(--sp-md); }
+.center { text-align: center; }
+.mx-auto { margin-inline: auto; }
+
+/* ---------- eyebrow / section intro ---------- */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: var(--sp-sm);
+}
+.section-intro { max-width: 70rem; margin: 0 auto var(--sp-3xl); text-align: center; }
+.section-intro p { color: var(--c-text); }
+.accent-text { color: var(--c-primary); }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: 1.2rem 2.4rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+.btn:hover { transform: translateY(-1px); }
+.btn--primary { background: var(--c-primary); color: #fff; }
+.btn--primary:hover { background: var(--c-primary-dark); color: #fff; }
+.btn--accent { background: var(--c-accent); color: #fff; }
+.btn--accent:hover { background: var(--c-accent-hover); color: #fff; }
+.btn--dark { background: var(--c-primary-dark); color: #fff; }
+.btn--dark:hover { background: #1b3a76; color: #fff; }
+.btn--ghost { background: transparent; color: var(--c-primary-dark); border: 2px solid var(--c-border-strong); }
+.btn--ghost:hover { background: var(--c-primary-dark); color: #fff; }
+.btn svg { width: 1.8rem; height: 1.8rem; fill: currentColor; }
+
+/* ---------- decorative placeholder blocks (used where the source had art) ---------- */
+.placeholder {
+  background:
+    linear-gradient(135deg, rgba(3, 117, 198, 0.12), rgba(3, 117, 198, 0.04)),
+    repeating-linear-gradient(45deg, #eef2f6 0 12px, #e6ecf3 12px 24px);
+  color: var(--c-muted);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 991px) {
+  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  h1 { font-size: var(--fs-4xl); }
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+}

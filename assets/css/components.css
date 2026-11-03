@@ -1,0 +1,965 @@
+/* ==========================================================================
+   components.css - header, hero, cards, faq, slider, cta, footer, forms
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ header */
+.topbar {
+  /* Live's row is the padded flex row itself: `display:flex; align-items:center; padding:8px 36px`
+     (`8px 20px` under 479px) with `font-size:16px`, and its height is content + padding (43.19px),
+     not the template's old hard 40px `min-height`. Measured on the oracle at 1280x900. No
+     `justify-content`/`gap` is set here on purpose: live reports both as `normal` and
+     compare_live.py compares them. */
+  display: flex;
+  align-items: center;
+  padding: 0.8rem var(--gutter);
+  background: var(--c-primary-dark);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: var(--fs-base);
+}
+.topbar__inner {
+  /* The gutter now comes from .topbar's own padding, so this must NOT also carry `.container`
+     (which resolves to calc(100% - 2 * --gutter) and would inset the content twice). Width 100%
+     capped at --container, centred by auto margins - the same 1320px cap and x=60 start live has. */
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Live's row is 15% / 50% / 15%: an empty left spacer centres the contact block, and the right column
+   carries the socials at the row's own right edge. Measured at 1280x900 - live inner 36..1244 with
+   columns 181 / 604 / 181, socials 1063..1244 justify flex-end gap 24px, contact block 338..942. */
+.topbar__side { width: 15%; }
+.topbar__contact { width: 50%; display: flex; justify-content: center; column-gap: var(--sp-lg); }
+.topbar__social { width: 15%; display: flex; justify-content: flex-end; gap: var(--sp-lg); }
+.topbar a { color: inherit; display: inline-flex; align-items: center; gap: 0.6rem; }
+.topbar a:hover { color: var(--c-accent); }
+.topbar svg { width: 1.6rem; height: 1.6rem; fill: currentColor; }
+
+/* 479-991px: live hides the left spacer and the socials there and shows only the contact pair, spread
+   (phone left, email right) - `.header-top__wrapper--center { width: 100%; justify-content: space-between }`.
+   Below 478px the whole topbar is hidden by the block further down, so this only affects 479-991. */
+@media (max-width: 991px) {
+  .topbar__side,
+  .topbar__social { display: none; }
+  .topbar__contact { width: 100%; justify-content: space-between; }
+}
+
+/* The topbar is hidden on the narrowest phones, matching the live reference. Measured
+   on the oracle at 400x802 (its .header-top is display:none there): hidden <=478px,
+   visible from 479px. Do not "fix" this to always-visible without re-measuring live. */
+@media (max-width: 478px) {
+  .topbar { display: none; }
+  /* The header row is shorter on the narrowest phones: live measures 60px at <=478px and
+     90px from 479px (measured on the oracle at 400/478/479/600/768/900/991/992/1024/1280).
+     Same 478px threshold as the topbar rule above - keep the two in step. */
+  :root { --header-h: 6rem; }
+  /* The row's tallest child sets its height. Live's mobile logo is 44px inside a 60px row
+     (8px padding above and below); the mark is 56px by default, which forces the row to 72px.
+     Scoped to the header bar (a direct child of the row) so the drawer's brand mark, which is
+     a different size by design, is not affected. */
+  .site-header__inner > .brand .brand__mark { width: 4.4rem; height: 4.4rem; }
+  /* Live's row is a fixed 60px with the logo centred (row padding 0, logo 44px at y=8), not a
+     60px minimum plus padding. Dropping the block padding here reproduces that exactly; leaving
+     it on makes the brand's text stack push the row to 60.19px. NOTE the extra `.site-header`
+     parent: the <=991px block below sets `padding-block: var(--sp-sm)` on the same element and
+     would otherwise win on source order. */
+  .site-header > .site-header__inner { padding-block: 0; }
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  /* Hide on scroll-down / show on scroll-up, mirroring the live reference (measured at
+     1280x900: hidden at scrollY >= 301, visible at 299; translated up -135px for a 133px
+     header; 0.4s ease; revealed on any scroll-up). Deliberately animate `top`, NOT
+     `transform`: the drawer nav#primary-nav is a position:fixed descendant, and a
+     transformed ancestor becomes its containing block, which would break the fixed drawer.
+     --hdr-shift is set from header.offsetHeight in template.js. */
+  transition: top 0.4s ease;
+}
+.site-header.is-hidden { top: calc(-1 * var(--hdr-shift, 0px)); }
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-lg);
+  min-height: var(--header-h);
+}
+
+.brand { display: inline-flex; align-items: center; gap: var(--sp-sm); }
+.brand__mark { width: 5.6rem; height: 5.6rem; border-radius: 50%; background: var(--c-primary); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-size: 2.4rem; }
+.brand__name { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 600; line-height: 1; color: var(--c-heading); }
+.brand__tag { display: block; font-family: var(--font-body); font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-muted); }
+
+.nav { margin-inline: auto; }
+.nav__list { display: flex; align-items: center; gap: var(--sp-lg); list-style: none; margin: 0; padding: 0; }
+.nav__list a { font-family: var(--font-display); font-size: var(--fs-xl); font-weight: 500; color: var(--c-heading); }
+.nav__list a:hover, .nav__list a[aria-current="page"] { color: var(--c-primary); }
+.nav__item--has-children { position: relative; }
+.nav__item--has-children > a::after { content: ""; display: inline-block; width: 0.6rem; height: 0.6rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin-left: 0.5rem; vertical-align: middle; }
+.nav__sub {
+  position: absolute; top: 100%; left: 0; min-width: 24rem; padding: var(--sp-sm);
+  margin: 0; list-style: none; background: #fff; border-radius: var(--radius);
+  box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; transform: translateY(6px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+}
+.nav__sub a { display: block; padding: 0.8rem 1.2rem; font-size: var(--fs-md); border-radius: var(--radius-sm); }
+.nav__sub a:hover { background: var(--c-bg-light); }
+
+/* Desktop only: hover/focus opens the dropdown and centres the mega panel. */
+@media (min-width: 992px) {
+  .nav__item--has-children:hover .nav__sub,
+  .nav__item--has-children:focus-within .nav__sub { opacity: 1; visibility: visible; transform: translateY(0); }
+
+  /* Categorised Services menu: a three-column panel centred under the trigger. */
+  .nav__sub--mega {
+    left: 50%;
+    width: min(68rem, calc(100vw - 4rem));
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-sm) var(--sp-lg);
+    padding: var(--sp-lg);
+    border: 1px solid var(--c-border);
+    transform: translate(-50%, 6px);
+  }
+  .nav__item--has-children:hover .nav__sub--mega,
+  .nav__item--has-children:focus-within .nav__sub--mega { transform: translate(-50%, 0); }
+}
+
+.nav__sub-col { min-width: 0; }
+.nav__sub-title {
+  display: block;
+  padding: 0.4rem 1.2rem 0.6rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+.nav__sub-list { list-style: none; margin: 0; padding: 0; }
+.nav__sub-list li { margin: 0; }
+.nav__sub-all {
+  grid-column: 1 / -1;
+  margin: var(--sp-xs) 0 0;
+  padding-top: var(--sp-sm);
+  border-top: 1px solid var(--c-border);
+}
+.nav__sub-all a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--c-primary);
+  font-weight: 600;
+}
+.nav__sub-all a:hover { background: transparent; color: var(--c-primary-dark); }
+
+.header-call { display: inline-flex; align-items: center; gap: var(--sp-sm); background: var(--c-primary-dark); color: #fff; padding: 0.8rem 1.6rem; border-radius: var(--radius); }
+.header-call:hover { color: #fff; background: #1b3a76; }
+.header-call svg { width: 2.6rem; height: 2.6rem; fill: var(--c-primary); }
+.header-call__label { display: block; font-size: var(--fs-xs); opacity: 0.8; }
+.header-call__number { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 600; line-height: 1; }
+
+.nav-toggle { display: none; background: none; border: 0; padding: 0.8rem; cursor: pointer; }
+.nav-toggle span { display: block; width: 2.6rem; height: 3px; background: var(--c-heading); border-radius: 2px; }
+.nav-toggle span + span { margin-top: 5px; }
+
+/* off-canvas drawer chrome - hidden until the <=991px rules below turn the nav into a drawer */
+.nav__top, .nav__sub-toggle, .nav-backdrop { display: none; }
+
+/* -------------------------------------------------------------------- hero */
+.hero { position: relative; color: #fff; overflow: hidden; background: var(--c-primary-dark); }
+/* .hero__bg holds the dark overlay; the page adds its own image layer (see page <style>) so
+   that url() resolves relative to the document, not to this stylesheet. */
+.hero__bg { position: absolute; inset: 0; background-color: var(--c-primary-dark); background-image: linear-gradient(180deg, rgba(9, 22, 44, 0.72), rgba(9, 22, 44, 0.82)); background-size: cover; background-position: center center; background-repeat: no-repeat; }
+/* The aside column is a fixed 516px to match the live quote form's width (measured 516 at 1440). */
+.hero__inner { position: relative; display: grid; grid-template-columns: 1fr 516px; gap: var(--sp-3xl); align-items: start; padding-block: var(--sp-5xl); }
+.hero h1 { color: #fff; font-size: var(--fs-6xl); }
+.hero h1 .accent-text { color: var(--c-tertiary, var(--c-primary)); }
+.hero p { color: rgba(255, 255, 255, 0.86); max-width: 52rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 3rem; margin-top: var(--sp-lg); }
+/* live centres the services-section CTA row inside the container */
+.hero__actions--center { justify-content: center; }
+
+.rating { display: inline-flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-md); }
+.rating__stars { display: inline-flex; gap: 2px; }
+.rating__stars svg { width: 1.8rem; height: 1.8rem; fill: #fbbc05; }
+.rating__text { font-size: var(--fs-md); color: rgba(255, 255, 255, 0.9); }
+
+/* ------------------------------------------------------------------ trust
+   Each trust point sits on a translucent grey card, exactly as the reference renders its hero
+   "features" list (live: .features__item { display: flex; column-gap: var(--space-md);
+   padding: var(--space-sm); border-radius: .3rem; color: var(--color-white);
+   background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px) }
+   and its container .hero__fetured { display: grid; grid-gap: var(--space-md); max-width: 50rem }.
+   The card reads grey because the 10% white sits on the dark hero overlay. */
+/* margin-top is var(--sp-lg) = 24px, live's rendered gap between the CTA row and the first card
+   (live gets it from .hero__content { row-gap: var(--space-lg) }, not from the list's own margin,
+   so live measures margin-top: 0px and 24px of actual space). */
+.trust-list { list-style: none; margin: var(--sp-lg) 0 0; padding: 0; display: grid; gap: var(--sp-md); max-width: 50rem; }
+.trust-list li {
+  display: flex;
+  gap: var(--sp-md);
+  margin: 0; /* base.css gives every li a 0.4em (6.4px) bottom margin; live's cards have none */
+  padding: var(--sp-sm);
+  border-radius: 0.3rem;
+  color: var(--c-white);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+.trust-list .icon-badge { flex: none; width: 4.4rem; height: 4.4rem; border-radius: var(--radius-sm); background: var(--c-primary); display: grid; place-items: center; }
+.trust-list .icon-badge svg { width: 2.2rem; height: 2.2rem; fill: #fff; }
+.trust-list h3 { font-size: var(--fs-xl); color: #fff; margin-bottom: 0.2rem; }
+.trust-list p { font-size: var(--fs-sm); margin: 0; }
+
+/* ------------------------------------------------------------------- quote
+   The reference quote panel is NOT one card with an inset header. It is TWO flush blocks
+   of equal width, both with square corners and neither with a box-shadow:
+     .hero-form__header   pad 30, bg rgb(3,117,198), border-bottom 5px solid rgb(113,204,236)
+     .quote-form__inner   pad 30, bg #fff, border 0 5px 5px rgb(113,204,236)
+   Gap between them is 0. Measured at 390x844 and 1440x900: header 350/516 x 159.69,
+   white panel 350/516 x 501.63 / 464.44. The border is the SAME light blue on both
+   blocks (the 0-width sides of the header inherit the grey placeholder colour). */
+.quote-card { color: #2d3034; }
+.quote-card__head {
+  background: var(--c-primary); color: #fff; text-align: center;
+  padding: 30px; border-radius: 0;
+  border-bottom: 5px solid rgb(113, 204, 236);
+}
+/* Teko 33.6px/700 with a 1.2 leading is what the reference renders, at every width */
+/* margin: 0, not `0 0 0.4rem`: live's heading carries no bottom margin, and that 4px was exactly the
+   head's +4px height difference (measured at 390x844: live h2 margin-bottom 0px vs template 4px, every
+   other property identical - padding 30px, h2 40.31, subtitle 54.38, fonts, line-heights). */
+.quote-card__head h2 { color: #fff; margin: 0; font-size: 3.36rem; font-weight: 700; line-height: 1.2; }
+.quote-card__head p { font-size: 1.6rem; line-height: 1.7; margin: 0; }
+/* The white form panel. This is a WRAPPER element, not the <form> itself.
+
+   Why: forminator.css ships ID-scoped rules for the form (`#forminator-module-2862
+   {border:none; border-radius:0}` and `#forminator-module-2862:not(.select2-dropdown){padding:0}`).
+   An ID selector outranks any class, so styling the <form> directly is silently defeated.
+   The reference site has the same split: `.quote-form__inner` is the white panel and the form
+   inside it is transparent and unpadded. Mirroring that structure also lets the trust line sit
+   OUTSIDE the form, as it does on the reference. */
+.quote-card__panel {
+  background: #fff; padding: 30px; border-radius: 0;
+  border-style: solid; border-color: rgb(113, 204, 236); border-width: 0 5px 5px;
+  display: flex; flex-direction: column; align-items: center;
+}
+/* The +8px form height, explained (2026-10-11). Live's chain is
+   .quote-form__inner (flex) > .brxe-shortcode (block) > form; ours is .quote-card__panel (flex) > form.
+   Because live's form is a block child of a block wrapper, its last row's 8px bottom margin collapses
+   out of the form, so the form's own box measures 374.25px against our 382.25px. The margin does not
+   disappear - it just sits outside the form - so the painted panel is identical and its height already
+   matches live. Verified: making this panel a block (removing the collapse barrier) does make the form
+   measure 374.25px, but it costs the panel's own `display:flex` and `align-items:center` match, i.e. 1
+   diff becomes 2. Left as is: it is a box-model artefact, not a visible difference. */
+/* The form must not add margin: forminator.css sets `margin: 30px 0` at specificity 0,3,0,
+   which opens a 30px gap under the blue header. 0,4,0 outranks it so the two blocks stay flush. */
+.quote-card__panel .forminator-ui.forminator-custom-form[data-design=default] { margin: 0; }
+/* match the reference site's submit button colour exactly */
+.forminator-button.forminator-button-submit { background-color: var(--c-primary); color: #fff; border: 0; }
+.forminator-button.forminator-button-submit:hover { background-color: var(--c-primary-dark); color: #fff; }
+/* the reference textarea inherits the site's 1.7 line-height (2 rows ≈ 74px); match it exactly.
+   Uses the same specificity pattern as the Forminator rules so it wins. */
+.forminator-ui.forminator-custom-form[data-design=default] .forminator-textarea { line-height: 1.7; }
+/* Matches the live trust line: the centring comes from text-align, not justify-content, so that
+   a WRAPPED line is centred too. Live computed: display flex, justify normal, align flex-start,
+   text-align center, gap 5px. */
+.quote-card__note { display: flex; align-items: flex-start; justify-content: normal; gap: 5px; margin-top: 0; font-size: 1.6rem; text-align: center; color: var(--c-muted); }
+/* .hero p would otherwise win on specificity and render this white-on-white */
+.quote-card .quote-card__note { color: var(--c-text); }
+/* Height and width set explicitly to the live values (14 x 16). NOTE: `width: auto` does NOT
+   work here - a <use> sprite has no intrinsic aspect ratio, so auto resolves to the SVG default
+   300px and blows the line up. The live element is an <i> font glyph, which does have a ratio.
+
+   Vertical position: the live icon is an inline-block <i> inside a span, so it sits on the text
+   baseline. Ours is a direct flex item, so it blockifies and pins to flex-start, landing 5.6px
+   high. The margin offsets it by half the line box minus the icon: (27.2 - 16) / 2 = 5.6px,
+   centring it on the first line exactly as live does. `align-self: baseline` has no effect on a
+   replaced flex item, and `align-self: center` overshoots by centring on the whole wrapped block. */
+.quote-card__note svg { width: 1.4rem; height: 1.6rem; flex: none; fill: currentColor; margin-top: calc((1.7em - 1.6rem) / 2); }
+
+/* ------------------------------------------------------------------- cards */
+.service-card { position: relative; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); }
+.service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+/* Whole-card link used by the AI Receptionist card: no View Details overlay,
+   the title link's ::after covers the card so every point is clickable. */
+.service-card--linked {
+  cursor: pointer;
+  /* The AI Receptionist card carries a permanent orange highlight so it reads
+     as the featured service without waiting for hover, focus or a click. */
+  outline: 3px solid var(--c-accent);
+  outline-offset: 3px;
+}
+.service-card--linked .service-card__title a { color: inherit; text-decoration: none; }
+.service-card--linked .service-card__title a::after { content: ""; position: absolute; inset: 0; z-index: 3; }
+.service-card--linked .service-card__title a:focus-visible { outline: none; }
+.service-card--linked:focus-within { outline-color: var(--c-accent-soft); }
+.service-card__media { aspect-ratio: 16 / 11; }
+.service-card__body { padding: var(--sp-lg); }
+.service-card__title { font-size: var(--fs-2xl); margin-bottom: var(--sp-sm); }
+.service-card__excerpt { font-size: var(--fs-base); }
+.link-more { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-size: var(--fs-xl); font-weight: 500; text-transform: uppercase; color: var(--c-accent); }
+.link-more:hover { color: var(--c-accent-hover); }
+.link-more svg { width: 1.8rem; height: 1.8rem; fill: currentColor; }
+
+.feature { display: flex; gap: var(--sp-md); }
+.feature__icon { flex: none; width: 5rem; height: 5rem; border-radius: var(--radius-sm); background: rgba(3, 117, 198, 0.1); display: grid; place-items: center; }
+.feature__icon svg { width: 2.6rem; height: 2.6rem; fill: var(--c-primary); }
+.feature__title { font-size: var(--fs-xl); margin-bottom: 0.4rem; }
+.feature p { font-size: var(--fs-sm); margin: 0; }
+
+.step-card { position: relative; padding: var(--sp-lg); background: #fff; border: 1px solid var(--c-border); border-radius: var(--radius); }
+.step-card__num { font-family: var(--font-display); font-size: var(--fs-5xl); line-height: 1; color: rgba(3, 117, 198, 0.25); }
+.step-card__title { font-size: var(--fs-xl); margin: var(--sp-sm) 0; }
+
+.stat { text-align: center; }
+.stat__value { font-family: var(--font-display); font-size: var(--fs-5xl); line-height: 1; color: var(--c-primary); }
+.stat__label { font-size: var(--fs-sm); color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.brand-card { display: grid; place-items: center; padding: var(--sp-lg); background: #fff; border: 1px solid var(--c-border); border-radius: var(--radius); min-height: 9rem; }
+.brand-card .placeholder { width: 100%; height: 4rem; font-size: var(--fs-md); }
+
+/* ------------------------------------------------------------- testimonials */
+.slider { position: relative; }
+.slider__track { display: flex; gap: var(--sp-lg); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: var(--sp-sm); }
+.slider__track::-webkit-scrollbar { display: none; }
+.slider__slide { flex: 0 0 clamp(28rem, 32%, 40rem); scroll-snap-align: start; }
+.slider__nav { display: flex; gap: var(--sp-sm); justify-content: center; margin-top: var(--sp-lg); }
+.slider__btn { width: 4.4rem; height: 4.4rem; border-radius: 50%; border: 1px solid var(--c-border-strong); background: #fff; cursor: pointer; display: grid; place-items: center; }
+.slider__btn:hover { background: var(--c-primary); border-color: var(--c-primary); }
+.slider__btn svg { width: 1.8rem; height: 1.8rem; fill: var(--c-heading); }
+.slider__btn:hover svg { fill: #fff; }
+
+.review { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: var(--sp-lg); height: 100%; transition: transform 300ms ease-out; }
+/* Reference hover lift (Trustindex review card):
+   Source: .ti-review-item{transition:transform 300ms ease-out}
+           @media (min-width:480px){.ti-review-item:hover{transform:translate(0,-5px)}} */
+@media (min-width: 480px) {
+  .review:hover { transform: translate(0, -5px); }
+}
+.review__head { display: flex; align-items: center; gap: var(--sp-sm); margin-bottom: var(--sp-sm); }
+.review__avatar { width: 4.4rem; height: 4.4rem; border-radius: 50%; }
+.review__name { font-weight: 700; color: var(--c-text-strong); }
+.review__stars { display: inline-flex; gap: 2px; margin-top: 0.2rem; }
+.review__stars svg { width: 1.4rem; height: 1.4rem; fill: #fbbc05; }
+.review__text { font-size: var(--fs-base); }
+
+/* --------------------------------------------------------------------- faq */
+.faq { max-width: 92rem; margin-inline: auto; }
+.faq-item { background: #fff; border: 1px solid var(--c-border); border-radius: var(--radius); margin-bottom: var(--sp-sm); }
+.faq-item__q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-md); padding: var(--sp-md) var(--sp-lg); background: none; border: 0; cursor: pointer; text-align: left; font-family: var(--font-display); font-size: var(--fs-xl); font-weight: 500; color: var(--c-heading); }
+/* FAQ toggle icons: the site uses Ionicons ion-ios-add / ion-ios-remove */
+.faq-item__icon { flex: none; font-size: 2rem; line-height: 1; color: var(--c-primary); }
+.faq-item__icon--remove { display: none; }
+.faq-item.is-open .faq-item__icon--add { display: none; }
+.faq-item.is-open .faq-item__icon--remove { display: inline-block; }
+.faq-item__a { padding: 0 var(--sp-lg) var(--sp-md); color: var(--c-text); }
+.faq-item__a[hidden] { display: none; }
+
+/* --------------------------------------------------------------------- cta */
+.cta-band { background: var(--c-primary); color: #fff; }
+/* links sit on the primary background, so they must not inherit the primary link colour */
+.cta-band a { color: #fff; }
+.cta-band a:hover { color: #fff; opacity: 0.85; }
+.cta-band__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-lg); flex-wrap: wrap; padding-block: var(--sp-3xl); }
+.cta-band h2 { color: #fff; margin: 0; }
+.cta-band p { margin: 0; color: rgba(255, 255, 255, 0.9); }
+
+.cta-contact { display: flex; gap: var(--sp-lg); flex-wrap: wrap; }
+.cta-contact__item { display: flex; align-items: center; gap: var(--sp-sm); }
+.cta-contact__item svg { width: 2.4rem; height: 2.4rem; fill: currentColor; }
+
+/* Attention shake: a short burst every few seconds, then rest. */
+@keyframes cta-phone-shake {
+  0%, 82%, 100% { transform: translateX(0) rotate(0); }
+  84% { transform: translateX(-2px) rotate(-1.5deg); }
+  86% { transform: translateX(2px) rotate(1.5deg); }
+  88% { transform: translateX(-2px) rotate(-1.5deg); }
+  90% { transform: translateX(2px) rotate(1.5deg); }
+  92% { transform: translateX(-1px) rotate(-1deg); }
+  94% { transform: translateX(1px) rotate(1deg); }
+}
+.cta-contact__item {
+  transform-origin: center;
+  animation: cta-phone-shake 4s ease-in-out infinite;
+}
+.cta-contact__item:hover,
+.cta-contact__item:focus-visible {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="on"]) .cta-contact__item { animation: none; }
+  /* Explicit opt-in: attention cue requested for this link. */
+  .cta-contact__item--attention {
+    animation: cta-phone-shake 4s ease-in-out infinite !important;
+  }
+}
+
+/* ------------------------------------------------------------------ footer */
+.site-footer { background: var(--c-footer); color: rgba(255, 255, 255, 0.72); }
+.site-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: var(--sp-3xl); padding-block: var(--sp-5xl); }
+.site-footer h3 { color: #fff; font-size: var(--fs-xl); margin-bottom: var(--sp-md); }
+.site-footer a { color: inherit; }
+.site-footer a:hover { color: var(--c-accent); }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li { margin-bottom: 0.6rem; }
+.site-footer .contact-line { display: flex; align-items: center; gap: 0.8rem; }
+.site-footer .contact-line svg { width: 1.8rem; height: 1.8rem; fill: var(--c-primary); }
+.site-footer__bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-block: var(--sp-md); font-size: var(--fs-sm); }
+/* Payment marks. The reference lays them out in a 3-column grid of 6rem (60px) columns with an
+   8px gap, each image rendering 60x39 (measured live at 1280x900 and 400x802, .payments__list).
+   The three SVGs are the real scheme marks, not generated placeholders. */
+.payments { margin-top: var(--sp-md); }
+/* width: fit-content reproduces live's shrink-to-fit list (196px = 3 x 60 + 2 x 8) instead of
+   stretching the grid to the footer column; aspect-ratio pins each mark to 60x39, which is the
+   ratio live actually renders (its width/height attributes 300x195), not the SVGs' own 300x194.6. */
+.payments__list { display: grid; grid-template-columns: repeat(3, minmax(0, 6rem)); gap: var(--sp-sm); align-items: initial; width: fit-content; }
+.payments__list img { display: block; width: 100%; height: auto; aspect-ratio: 300 / 195; }
+.payments .placeholder { width: 6.4rem; height: 4rem; font-size: var(--fs-xs); }
+
+/* ------------------------------------------------------------------- forms */
+/* The quote form is the reference's own Forminator markup; its styling lives in
+   assets/css/forminator.css, which every page carrying a form links. The only
+   template-specific piece is the demo submit-status element, defined here. */
+.form-status { margin-top: var(--sp-md); padding: var(--sp-md); border-radius: var(--radius); display: none; }
+.form-status.is-success { display: block; background: #e6f6ed; color: #0f7a45; }
+.form-status.is-error { display: block; background: #ffe6ec; color: #b00020; }
+
+/* --------------------------------------------------------------- page hero */
+.page-hero { background: var(--c-bg-light); padding-block: var(--sp-4xl); text-align: center; }
+.page-hero h1 { margin-bottom: var(--sp-sm); }
+.page-hero__lead { max-width: 66rem; margin: 0 auto var(--sp-lg); color: var(--c-text); font-size: var(--fs-md); }
+.breadcrumb { font-size: var(--fs-sm); color: var(--c-muted); }
+.breadcrumb a { color: var(--c-primary); }
+.page-hero .hero__actions { justify-content: center; }
+
+/* ---------------------------------------------------------------- utilities */
+/* ---------------------------------------------- sample call (illustration only)
+   The artwork is the whole control: no bar, caption or transcript. Once the call
+   has been played it stays animated, so pausing or finishing never snaps the
+   rings, bars or dot back to their static frame. */
+.sample-call { margin: 0 0 var(--sp-lg); }
+.sample-call__surface {
+  display: block; width: 100%; padding: 0; background: var(--td-ink, #101216);
+  position: relative; line-height: 0; color: inherit; cursor: pointer;
+  border-radius: var(--radius);
+  border: 2px solid var(--c-accent);
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.sample-call__surface:hover { transform: translateY(-2px); box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45); }
+.sample-call__surface:focus-visible { outline: 3px solid var(--c-accent); outline-offset: 4px; }
+.sample-call__art { display: block; width: 100%; height: auto; }
+
+.sample-call .sc-ring {
+  transform-box: fill-box; transform-origin: center;
+  animation: sc-ring 1.8s ease-out infinite;
+}
+.sample-call .sc-ring + .sc-ring { animation-delay: 0.6s; }
+.sample-call .sc-bar {
+  transform-box: fill-box; transform-origin: center;
+  animation: sc-bar 0.6s ease-in-out infinite alternate;
+}
+.sample-call .sc-bar:nth-child(2n) { animation-duration: 0.48s; }
+.sample-call .sc-bar:nth-child(3n) { animation-delay: -0.18s; }
+.sample-call .sc-bar:nth-child(4n) { animation-delay: -0.32s; animation-duration: 0.72s; }
+.sample-call .sc-bar:nth-child(5n) { animation-delay: -0.1s; }
+.sample-call .sc-dot { animation: sc-blink 1.2s steps(2, end) infinite; }
+.sample-call .sc-check {
+  transform-box: fill-box; transform-origin: center;
+  animation: sc-pop 1.6s ease-in-out infinite;
+}
+
+/* While the sample call is running, the interior accents switch to the live
+   green. The large orange frame stays orange at all times and never waits for
+   a click or a playing state. */
+.sample-call .sc-phone,
+.sample-call .sc-ring,
+.sample-call .sc-bar,
+.sample-call .sc-check { transition: stroke 0.2s ease, fill 0.2s ease; }
+.sample-call.is-playing .sc-phone,
+.sample-call.is-playing .sc-ring { stroke: var(--td-live, #4ade80); }
+.sample-call.is-playing .sc-bar,
+.sample-call.is-playing .sc-check { fill: var(--td-live, #4ade80); }
+
+@keyframes sc-ring {
+  0% { transform: scale(1); stroke-opacity: 0.5; }
+  100% { transform: scale(1.22); stroke-opacity: 0; }
+}
+@keyframes sc-bar {
+  from { transform: scaleY(0.6); }
+  to { transform: scaleY(1.45); }
+}
+@keyframes sc-blink {
+  50% { opacity: 0.25; }
+}
+@keyframes sc-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="on"]) .sample-call__surface { transition: none; }
+  html:not([data-motion="on"]) .sample-call__surface:hover { transform: none; }
+  html:not([data-motion="on"]) .sample-call .sc-phone,
+  html:not([data-motion="on"]) .sample-call .sc-ring,
+  html:not([data-motion="on"]) .sample-call .sc-bar,
+  html:not([data-motion="on"]) .sample-call .sc-check { transition: none; }
+  html:not([data-motion="on"]) .sample-call .sc-bar,
+  html:not([data-motion="on"]) .sample-call .sc-ring,
+  html:not([data-motion="on"]) .sample-call .sc-dot,
+  html:not([data-motion="on"]) .sample-call .sc-check { animation: none; }
+}
+
+.prose { max-width: 78rem; }
+.prose h2 { margin-top: var(--sp-xl); }
+.edu-panel { margin-top: var(--sp-lg); }
+.edu-panel ul li { margin-bottom: 0.4rem; }
+.edu-panel ul a { color: var(--c-accent); }
+
+/* two-column splits: class-based so the responsive rule below can stack them */
+.split { display: grid; gap: var(--sp-3xl); align-items: start; grid-template-columns: 1.6fr 1fr; }
+.split--even { display: grid; gap: var(--sp-3xl); grid-template-columns: 1fr 1fr; align-items: center; }
+@media (max-width: 991px) {
+  .split, .split--even { grid-template-columns: 1fr; }
+}
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* skip link: hidden until keyboard-focused, then visible */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 1.6rem;
+  background: var(--c-primary);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus { left: 0; color: #fff; outline: 2px solid #fff; outline-offset: -4px; }
+
+/* respect users who prefer reduced motion, unless the page opts in with
+   <html data-motion="on"> (the dark fork does; see README-DARK.md) */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="on"]) *, html:not([data-motion="on"]) *::before, html:not([data-motion="on"]) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .hero__inner { grid-template-columns: 1fr; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; }
+  .site-header__inner { flex-wrap: wrap; padding-block: var(--sp-sm); }
+  .header-call { display: none; }
+  .nav-toggle { display: block; order: 3; margin-left: auto; }
+
+  /* -------- off-canvas drawer: a fixed panel that slides in from the right edge.
+     Values measured from the live reference at 400x802 (its .off-canvas__content):
+     position fixed, inset 0, background rgb(30,32,35) = --c-bg-dark, z-index 999,
+     overflow-y auto, transition transform .2s cubic-bezier(.25,0,.25,1); closed state
+     is translateX(100%) + visibility:hidden, open is translateX(0) + visible. -------- */
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto;
+    background: var(--c-bg-dark);
+    transform: translateX(100%);
+    visibility: hidden;
+    /* transform slides; visibility flips instantly on open (0s delay) but is delayed until the
+       slide-out finishes on close, so the panel does not vanish mid-animation. */
+    transition: transform 0.2s cubic-bezier(0.25, 0, 0.25, 1), visibility 0s linear 0.2s;
+  }
+  .nav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.2s cubic-bezier(0.25, 0, 0.25, 1), visibility 0s linear 0s;
+  }
+
+  /* brand + close row (live: container padding 36px 22px 0, logo centred, X at top-right) */
+  .nav__top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex: none;
+    width: 100%;
+    padding: 3.6rem 2.2rem 0;
+  }
+  .nav__brand { display: inline-flex; align-items: center; gap: var(--sp-sm); text-decoration: none; }
+  .nav__brand .brand__name { color: var(--c-white); }
+  .nav__brand .brand__tag { color: rgba(255, 255, 255, 0.6); }
+  /* close button box/font match live exactly: 22.5x30, 30px Roboto, display:flex, no align-items */
+  .nav__close {
+    position: absolute;
+    top: 2.2rem;
+    right: 2.2rem;
+    width: 22.5px;
+    height: 30px;
+    display: flex;
+    padding: 0;
+    font-family: inherit;
+    font-size: 30px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--c-white);
+  }
+  .nav__close svg { display: block; width: 2.3rem; height: 3rem; }
+
+  /* vertical items separated by hairlines (live: <a> 20px Roboto/400, padding 8px 0, display:flex,
+     border-bottom 1px solid rgba(107,107,107,.21), rendered row height 51px) */
+  .nav__list { flex: 1 1 auto; width: 100%; flex-direction: column; align-items: stretch; gap: 0; padding: 3rem 2.2rem 2rem; }
+  .nav__list > li { width: 100%; margin: 0; }
+  .nav__list a {
+    display: flex;
+    padding: 0.8rem 0;
+    font-family: var(--font-body);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--c-white);
+    border-bottom: 1px solid rgba(107, 107, 107, 0.21);
+  }
+  /* live keeps every drawer link white, including the current page (its [aria-current] tint is
+     a desktop-only treatment), so don't tint here - parity at 400x802 */
+  .nav__list a:hover { color: var(--color-tertiary); }
+  .nav__list a[aria-current="page"] { color: var(--c-white); }
+
+  /* Services is an accordion in the drawer (on desktop it stays a hover dropdown) */
+  .nav__item--has-children { position: relative; }
+  .nav__item--has-children > a { padding-right: 4.4rem; }
+  .nav__item--has-children > a::after { display: none; }
+  /* box matches live (20x36, padding 8px 0, flex); the ::before enlarges the tap target to
+     >=44x44 WITHOUT changing the measured 20x36 box (getBoundingClientRect is unaffected). */
+  .nav__sub-toggle {
+    position: absolute;
+    top: 7px;
+    right: 0;
+    width: 20px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-family: inherit;
+    font-size: 20px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--c-white);
+  }
+  .nav__sub-toggle::before { content: ""; position: absolute; inset: -12px -14px; }
+  .nav__chev {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-inline: auto;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--transition);
+  }
+  .nav__item--has-children.is-open .nav__chev { transform: rotate(-135deg); }
+  /* collapsed by default: display:none keeps the sub links OUT OF THE TAB ORDER (a11y) */
+  .nav__sub {
+    display: none;
+    position: static;
+    min-width: 0;
+    width: auto;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav__item--has-children.is-open .nav__sub { display: block; }
+  .nav__sub--mega { padding: 0; border: 0; }
+  .nav__sub-title {
+    padding: 1.1rem 0 0.2rem 2rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .nav__sub--mega .nav__sub-list a { padding-left: 2.8rem; }
+  .nav__sub-all { margin-top: 0.4rem; padding-top: 0.4rem; border-top-color: rgba(69, 69, 69, 0.54); }
+  .nav__sub--mega .nav__sub-all a { padding-left: 2rem; color: var(--c-accent-soft, var(--c-primary)); }
+  .nav__sub a {
+    padding: 0.8rem 0 0.8rem 2rem;
+    font-size: 1.8rem;
+    border-bottom: 1px solid rgba(69, 69, 69, 0.54);
+  }
+  .nav__sub a:hover { background: transparent; color: var(--color-tertiary); }
+
+  /* No in-drawer phone bar here: the reference has none either - its "Call Us Now" bar is the
+     page-level sticky bar (.sticky-call, plan 003), which paints above the open drawer. An
+     in-drawer .nav__call was tried and removed: it was never visible (the header's z-index 50
+     stacking context sits below .sticky-call's z-index 999), i.e. dead markup. */
+
+  /* dimmed backdrop behind the drawer (live: display:flex; flex-direction:column; align-items:flex-start) */
+  .nav-backdrop {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  .nav-backdrop.is-open { opacity: 1; visibility: visible; }
+}
+@media (max-width: 767px) {
+  .site-footer__grid { grid-template-columns: 1fr; gap: var(--sp-xl); }
+  .btn { padding-inline: 1.6rem; letter-spacing: 0.02em; }
+}
+
+/* ------------------------------------------------- exact icon glyphs (fonts) */
+/* The reference site uses Font Awesome 6 and Ionicons; icons.css supplies the faces + codepoints. */
+.fas, .far, .fab, .ion-ios-add, .ion-ios-remove { line-height: 1; display: inline-block; }
+
+.topbar i { font-size: 1.6rem; }
+.header-call i { font-size: 2.6rem; color: var(--c-primary); }
+.btn i { font-size: 1.8rem; }
+.trust-list .icon-badge i { font-size: 2.2rem; color: #fff; }
+.feature__icon i { font-size: 2.6rem; color: var(--c-primary); }
+.link-more i { font-size: 1.8rem; }
+.cta-contact__item i { font-size: 2.4rem; }
+.site-footer .contact-line i { font-size: 1.8rem; color: var(--c-primary); width: 1.8rem; text-align: center; }
+
+/* exact star glyph + slider arrow glyph (inlined from the reference site) */
+.icon-star { width: 1.8rem; height: 1.8rem; fill: #fbbc05; color: #fbbc05; }
+.review__stars .icon-star { width: 1.4rem; height: 1.4rem; }
+.slider__arrow { width: 1.8rem; height: 1.8rem; fill: currentColor; }
+.slider__arrow--prev { transform: rotate(180deg); }
+.slider__btn:hover .slider__arrow { fill: #fff; }
+
+/* ------------------------------------------------- animated call / quote icon */
+/* Exact keyframes taken from the reference site: the icon's three bars "type" themselves. */
+@keyframes draw { 0% { stroke-dashoffset: 30; } 40% { stroke-dashoffset: 0; } 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 30; } }
+@keyframes click-animation { 0% { transform: translate(-50%, -50%) scale(1); opacity: .2; } 50% { transform: translate(-50%, -50%) scale(2); opacity: .1; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
+@keyframes ring-wave { 0% { opacity: 0.1; } 30% { opacity: 0.8; } 70% { opacity: 0.6; } 100% { opacity: 0.1; } }
+
+.typing-path {
+  stroke: #1C274C;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: draw 2s ease-in-out infinite;
+}
+svg:hover .typing-path { animation-duration: 1.2s; }
+/* inside the call / quote buttons the drawn bars are white, exactly as on the reference site */
+/* The hero CTAs are `a.cta-btn` anchors, not `.btn`, so they need to be in this list too,
+   otherwise the animated bars fall back to the SVG's inline dark stroke. */
+.btn .typing-path, .header-call .typing-path, .cta-contact .typing-path, .cta-btn .typing-path { stroke: var(--color-white); }
+.btn svg.cta-icon, .btn img.cta-icon { width: 5rem; height: 5rem; flex: none; }
+.header-call img.cta-icon, .header-call svg.cta-icon { width: 4rem; height: 4rem; flex: none; }
+
+/* the inlined ringing-phone icon: the reference pulses its arch paths with ring-wave */
+.cta-icon path { fill: var(--color-white); }
+.arch { opacity: 0.1; animation: ring-wave 2s ease-in-out infinite; }
+.arch-1 { animation-delay: 0s; }
+.arch-2 { animation-delay: 0.4s; }
+.arch-3 { animation-delay: 0.8s; }
+.arch-4 { animation-delay: 1.2s; }
+svg:hover .arch { animation-duration: 1.4s; }
+
+/* Google logo used beside the review rating */
+.rating__logo { width: 3rem; height: 3rem; flex: none; }
+
+/* keep the animated bars visible (not frozen mid-draw) when motion is reduced */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="on"]) .typing-path { animation: none; stroke-dashoffset: 0; }
+  html:not([data-motion="on"]) .arch { animation: none; opacity: 0.6; }
+}
+
+/* ===========================================================================
+   REFERENCE-PARITY MOTION
+   Animations ported from the reference site. Each block names the source rule
+   it came from so the mapping stays auditable. See docs/ANIMATIONS.md for evidence.
+   =========================================================================== */
+
+/* -- scroll entrances -------------------------------------------------------
+   Source: .brx-animated{animation-duration:1s;animation-fill-mode:both}
+           .brx-animate-fadeInUp{animation-name:fadeInUp}
+           .brx-animate-zoomIn{animation-name:zoomIn}
+   The reference drives these from a data-interactions "enterView" trigger.
+   We use a data-reveal attribute + IntersectionObserver instead.
+   Elements are hidden ONLY when JS runs (.js set by template.js), so no-JS
+   visitors always see content. */
+@keyframes fadeInUp { 0% { opacity: 0; transform: translate3d(0, 100%, 0); } to { opacity: 1; transform: translateZ(0); } }
+/* NOTE: the reference's zoomIn (Animate.css) defines only 0% and 50%. That works there
+   because the element's base opacity is 1, so the browser's implicit 100% keyframe is 1.
+   Here the base opacity is 0 (hidden until revealed), so the implicit 100% would be 0 and
+   the element would animate in and then vanish. The explicit 100% preserves the same look
+   while guaranteeing the element ends visible. Verified by tools/verify_animations.py. */
+@keyframes zoomIn {
+  0% { opacity: 0; transform: scale3d(.3, .3, .3); }
+  50% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+
+.js [data-reveal] { opacity: 0; }
+.js [data-reveal].is-revealed { animation-duration: 1s; animation-fill-mode: both; }
+.js [data-reveal="up"].is-revealed { animation-name: fadeInUp; }
+.js [data-reveal="zoom"].is-revealed { animation-name: zoomIn; }
+
+/* -- lazy image fade --------------------------------------------------------
+   Source: .perfmatters-lazy.pmloaded { animation: pmFadeIn .5s } */
+@keyframes pmFadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+img.is-loaded { animation: pmFadeIn .5s ease; }
+
+/* -- service card hover overlay --------------------------------------------
+   Source: .service-card__overlay{...;transform:translateY(100%);transition:.5s}
+           .service-card__figure:hover .service-card__overlay{transform:translateY(0)} */
+.service-card__figure { position: relative; width: 100%; aspect-ratio: 16 / 11; overflow: hidden; }
+.service-card__figure picture { display: contents; }
+.service-card__figure .service-card__media { display: block; width: 100%; height: 100%; object-fit: cover; }
+.service-card__overlay {
+  position: absolute; inset: 0; z-index: 9;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--color-border-dark);
+  transform: translateY(100%); transition: .5s;
+}
+.service-card__figure:hover .service-card__overlay,
+.service-card__figure:focus-within .service-card__overlay { transform: translateY(0); }
+.service-card__overlay-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: var(--sp-sm) var(--sp-md);
+  background: var(--c-primary); color: var(--color-white);
+  font-family: var(--font-display); font-size: var(--fs-lg);
+  text-transform: uppercase; border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+.service-card__overlay-btn svg { width: 1.8rem; height: 1.8rem; fill: currentColor; }
+
+/* -- brand logo hover zoom --------------------------------------------------
+   Source: .brands-card:hover .brands-card__img { transform: scale(1.1) } */
+.brand-card img { transition: transform .5s; }
+.brand-card:hover img { transform: scale(1.1); }
+
+/* -- button transitions -----------------------------------------------------
+   Source: .cta-btn{transition:.5s all} .call-btn--primary:hover{background-color:var(--color-hover)}
+           .quote-btn--primary:hover / .quote-btn--secondary:hover -> var(--color-hover) */
+.btn, .header-call, .cta-btn { transition: .5s all; }
+.btn--primary:hover, .btn--accent:hover, .btn--dark:hover, .btn--ghost:hover,
+.header-call:hover, .cta-btn:hover { background-color: var(--color-hover); }
+
+/* -- hero CTA buttons: a small label stacked over a big value -----------------
+   Live renders both hero CTAs as `a.cta-btn` (the call button measures 219x66) holding a 50x50
+   icon and two lines: label 12px/400/#fff over value 22px/700/rgb(249,250,251), in Roboto rather
+   than Teko. `.call-btn--primary` is the navy, `.quote-btn--secondary` the brighter primary blue.
+   This is the same pattern the sticky call bar uses, so the shared rules sit here. */
+.cta-btn {
+  display: inline-flex; align-items: center; column-gap: 1.6rem;
+  padding: 0.8rem; border-radius: 0; text-decoration: none; color: #fff;
+  font-family: var(--font-body); font-size: 1.6rem;
+}
+.cta-btn .cta-icon { width: 5rem; height: 5rem; flex: none; }
+.cta-btn .cta-icon path { fill: #fff; }
+.cta-btn__text { display: flex; flex-direction: column; gap: 4px; }
+.cta-btn__label { font-size: 1.2rem; font-weight: 400; line-height: 1.7; color: #fff; }
+.cta-btn__number { font-size: 2.2rem; font-weight: 700; line-height: 1; color: rgb(249, 250, 251); }
+.cta-btn.call-btn--primary { background: var(--c-primary-dark); }
+.cta-btn.quote-btn--secondary { background: var(--color-primary); }
+
+/* -- FAQ header transition --------------------------------------------------
+   Source: .faqs-item__header { transition: .5s all } */
+.faq-item__header, .faqs-item__header, .faq-item__q, .faq__q { transition: .5s all; }
+
+/* -- mobile sticky call bar -------------------------------------------------
+   Source: .sticky-btn{padding-top:0;padding-bottom:0;background-color:var(--color-secondary);
+                        z-index:999;box-shadow:0 -5px 10px 0 rgba(0,0,0,.21);display:none}
+           @media (max-width:478px){.sticky-btn{display:flex;position:fixed;bottom:0}} */
+.sticky-call { display: none; }
+@media (max-width: 478px) {
+  /* Matches the live .sticky-btn: a column flex bar with 20px side padding, centring a
+     fit-content pill. Height 66 = 8px padding + the 50px icon + 8px padding, so the icon size
+     is what drives the bar height. See docs/plans/003-sticky-bar.md. */
+  .sticky-call {
+    display: flex; flex-direction: column; align-items: center;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+    padding: 0 20px; background-color: var(--color-secondary);
+    box-shadow: 0 -5px 10px 0 rgba(0, 0, 0, 0.21);
+  }
+  /* fit-content and centred, not full width; no radius; 16px and not uppercased */
+  .sticky-call .cta-btn {
+    display: inline-flex; align-items: center; column-gap: 16px; margin: 0;
+    padding: 0.8rem; border-radius: 0;
+    background: var(--c-primary-dark); color: #fff;
+    font-size: 1.6rem; text-decoration: none;
+  }
+  .sticky-call .cta-btn .cta-icon { width: 5rem; height: 5rem; flex: none; }
+  .sticky-call .cta-btn .cta-icon path { fill: #fff; }
+  /* two stacked lines: label 12px/400/1.7 (inherited) + number 20px/700/1 */
+  .sticky-call .cta-btn__text { display: flex; flex-direction: column; gap: 4px; }
+  .sticky-call .cta-btn__label { font-size: 1.2rem; font-weight: 400; color: #fff; }
+  .sticky-call .cta-btn__number { font-size: 2rem; font-weight: 700; line-height: 1; color: rgb(249, 250, 251); }
+  body { padding-bottom: 8rem; }
+}
+
+/* -- reduced motion ---------------------------------------------------------
+   Mirrors the reference's own guard:
+   @media (prefers-reduced-motion:reduce),print{.brx-animated{animation-duration:1ms!important}}
+   We go further and remove the animation entirely so content always lands visible. */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="on"]) .js [data-reveal] { opacity: 1; }
+  html:not([data-motion="on"]) .js [data-reveal].is-revealed { animation: none; }
+  html:not([data-motion="on"]) img.is-loaded { animation: none; }
+  html:not([data-motion="on"]) .service-card__overlay { transition: none; }
+  html:not([data-motion="on"]) .brand-card img { transition: none; }
+  html:not([data-motion="on"]) .review { transition: none; }
+  html:not([data-motion="on"]) .review:hover { transform: none; }
+  html:not([data-motion="on"]) .btn,
+  html:not([data-motion="on"]) .header-call,
+  html:not([data-motion="on"]) .cta-btn { transition: none; }
+  /* the drawer must not slide when motion is reduced */
+  html:not([data-motion="on"]) .nav { transition: none; }
+  html:not([data-motion="on"]) .nav-backdrop { transition: none; }
+  html:not([data-motion="on"]) .nav__chev { transition: none; }
+  html:not([data-motion="on"]) .nav__sub { transition: none; }
+}
+
+/* -- print ------------------------------------------------------------------
+   The reference guards this case too (its reduced-motion rule is written
+   `@media (prefers-reduced-motion:reduce),print{...}`). Without it, any element
+   that has not scrolled into view is still at opacity 0 and prints BLANK. */
+@media print {
+  .js [data-reveal] { opacity: 1 !important; animation: none !important; }
+  img.is-loaded { animation: none !important; opacity: 1 !important; }
+  .service-card__overlay { display: none !important; }
+  .sticky-call { display: none !important; }
+}
+
+/* -- faq glyph swap -------------------------------------------------------
+   The shared icon rule near the bottom sets display:inline-block on the add/remove
+   glyphs, which outranks the original `.faq-item__icon--remove{display:none}` by
+   source order. Restore the swap with higher specificity so closed items show only
+   the plus and open items show only the minus. */
+.faq-item:not(.is-open) .faq-item__icon--remove { display: none; }
+.faq-item.is-open .faq-item__icon--add { display: none; }
+.faq-item.is-open .faq-item__icon--remove { display: inline-block; }
+

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-motion="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Call to Calendar | Top Deck AI</title>
+<meta name="description" content="How an AI receptionist turns a phone call into a confirmed booking: qualifying, availability, confirmations and handover.">
+<meta name="theme-color" content="#101216">
+<link rel="icon" href="../assets/img/dark/td-mark.svg">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/forminator.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<link rel="stylesheet" href="../assets/css/theme-dark.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.2-8 5-8-5V6l8 5 8-5z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 17.3-6.2 3.7 1.6-7L2 9.2l7.1-.6L12 2l2.9 6.6 7.1.6-5.4 4.8 1.6 7z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h12.2l-4.6-4.6L14 6l6 6-6 6-1.4-1.4 4.6-4.6H5z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 448 512"><path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.1h-3.1V8.7c0-.9.3-1.5 1.6-1.5h1.7V4.4A22 22 0 0 0 14.3 4c-2.4 0-4 1.5-4 4.2v2.7H7.6V14h2.7v8z"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.9 3.9 0 0 1-1.4-.9 3.9 3.9 0 0 1-.9-1.4c-.2-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.3A6.5 6.5 0 1 0 18.5 12 6.5 6.5 0 0 0 12 5.5zm0 10.7A4.2 4.2 0 1 1 16.2 12 4.2 4.2 0 0 1 12 16.2zm6.8-11a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5z"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+<div class="topbar">
+  <div class="topbar__inner">
+    <span class="topbar__side" aria-hidden="true"></span>
+    <span class="topbar__contact">
+      <a href="tel:+16365564062"><svg><use href="#i-phone"></use></svg> (636) 556-4062</a>
+      <a href="mailto:hello@example.com"><svg><use href="#i-mail"></use></svg> hello@example.com</a>
+    </span>
+    <span class="topbar__social">
+      <a href="#" aria-label="Facebook"><svg><use href="#i-facebook"></use></svg></a>
+      <a href="#" aria-label="Instagram"><svg><use href="#i-instagram"></use></svg></a>
+    </span>
+  </div>
+</div>
+
+
+  <div class="container site-header__inner">
+    <a class="brand" href="../index.html">
+      <img class="brand__mark" src="../assets/img/dark/td-mark.svg" alt="" width="56" height="56">
+      <span><span class="brand__name">Top Deck AI</span><span class="brand__tag">Strategy / Build / Growth</span></span>
+    </a>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <div class="nav__top">
+        <a class="nav__brand" href="../index.html">
+          <img class="brand__mark" src="../assets/img/dark/td-mark.svg" alt="" width="56" height="56">
+          <span class="nav__brand-text"><span class="brand__name">Top Deck AI</span><span class="brand__tag">Strategy / Build / Growth</span></span>
+        </a>
+        <button class="nav__close" type="button" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <ul class="nav__list">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about-us/index.html">About Us</a></li>
+        <li class="nav__item--has-children">
+          <a href="../services/index.html">Services</a>
+          <button class="nav__sub-toggle" type="button" aria-expanded="false" aria-label="Toggle Services submenu" aria-controls="nav-sub-services"><span class="nav__chev" aria-hidden="true"></span></button>
+          <ul class="nav__sub nav__sub--mega" id="nav-sub-services">
+            <li class="nav__sub-col">
+              <span class="nav__sub-title">AI Front Desk</span>
+              <ul class="nav__sub-list">
+                <li><a href="../service/service-one.html">AI Receptionist</a></li>
+                <li><a href="../service/service-two.html">Lead Response System</a></li>
+              </ul>
+            </li>
+            <li class="nav__sub-col">
+              <span class="nav__sub-title">AI Systems</span>
+              <ul class="nav__sub-list">
+                <li><a href="../service/service-three.html">Business Assistant</a></li>
+                <li><a href="../service/service-four.html">Integration Build</a></li>
+              </ul>
+            </li>
+            <li class="nav__sub-col">
+              <span class="nav__sub-title">Web &amp; SEO</span>
+              <ul class="nav__sub-list">
+                <li><a href="../service/service-five.html">Website Health Check</a></li>
+                <li><a href="../service/service-six.html">Conversion Rebuild</a></li>
+              </ul>
+            </li>
+            <li class="nav__sub-all"><a href="../services/index.html">View all services <span aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </li>
+        <li><a href="../our-work/index.html">Our Work</a></li>
+        <li><a href="../contact-us/index.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <div class="nav-backdrop"></div>
+    <a class="header-call" href="tel:+16365564062">
+      <svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="616.9658 24.1281 268.2053 266.5682" fill="none" aria-hidden="true"><path opacity="0.4" d="M 337.696 102.913 L 334.426 106.183 C 334.066 105.863 333.716 105.533 333.376 105.193 C 332.346 104.153 331.416 103.063 330.586 101.923 C 329.766 100.783 329.106 99.643 328.626 98.513 C 328.146 97.373 327.906 96.283 327.906 95.243 C 327.906 94.563 328.026 93.913 328.266 93.313 C 328.506 92.703 328.886 92.143 329.416 91.643 C 330.056 91.013 330.756 90.703 331.496 90.703 C 331.776 90.703 332.056 90.763 332.306 90.883 C 332.566 91.003 332.796 91.183 332.976 91.443 L 335.296 94.713 C 335.476 94.963 335.606 95.193 335.696 95.413 C 335.786 95.623 335.836 95.833 335.836 96.023 C 335.836 96.263 335.766 96.503 335.626 96.733 C 335.496 96.963 335.306 97.203 335.066 97.443 L 334.306 98.233 C 334.196 98.343 334.146 98.473 334.146 98.633 C 334.146 98.713 334.156 98.783 334.176 98.863 C 334.206 98.943 334.236 99.003 334.256 99.063 C 334.436 99.393 334.746 99.823 335.186 100.343 C 335.636 100.863 336.116 101.393 336.636 101.923 C 336.996 102.273 337.346 102.613 337.696 102.913 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path d="M 347.875 107.033 C 347.875 107.313 347.825 107.603 347.725 107.883 C 347.695 107.963 347.665 108.043 347.625 108.123 C 347.455 108.483 347.235 108.823 346.945 109.143 C 346.455 109.683 345.915 110.073 345.305 110.323 C 345.295 110.323 345.285 110.333 345.275 110.333 C 344.685 110.573 344.045 110.703 343.355 110.703 C 342.335 110.703 341.245 110.463 340.095 109.973 C 338.945 109.483 337.795 108.823 336.655 107.993 C 336.265 107.703 335.875 107.413 335.505 107.103 L 338.775 103.833 C 339.055 104.043 339.305 104.203 339.515 104.313 C 339.565 104.333 339.625 104.363 339.695 104.393 C 339.775 104.423 339.855 104.433 339.945 104.433 C 340.115 104.433 340.245 104.373 340.355 104.263 L 341.115 103.513 C 341.365 103.263 341.605 103.073 341.835 102.953 C 342.065 102.813 342.295 102.743 342.545 102.743 C 342.735 102.743 342.935 102.783 343.155 102.873 C 343.375 102.963 343.605 103.093 343.855 103.263 L 347.165 105.613 C 347.425 105.793 347.605 106.003 347.715 106.253 C 347.815 106.503 347.875 106.753 347.875 107.033 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-1" d="M 341.118 99.389 C 340.934 99.389 340.788 99.239 340.788 99.059 C 340.788 98.901 340.63 98.571 340.364 98.284 C 340.103 98.005 339.816 97.842 339.576 97.842 C 339.391 97.842 339.246 97.693 339.246 97.512 C 339.246 97.333 339.396 97.183 339.576 97.183 C 340.004 97.183 340.454 97.415 340.848 97.83 C 341.216 98.22 341.452 98.703 341.452 99.055 C 341.452 99.239 341.302 99.389 341.118 99.389 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-2" d="M 343.526 99.453 C 343.096 99.453 342.756 99.103 342.756 98.683 C 342.756 98.313 342.386 97.543 341.766 96.873 C 341.156 96.223 340.486 95.843 339.926 95.843 C 339.496 95.843 339.156 95.493 339.156 95.073 C 339.156 94.653 339.506 94.303 339.926 94.303 C 340.926 94.303 341.976 94.843 342.896 95.813 C 343.756 96.723 344.306 97.853 344.306 98.673 C 344.306 99.103 343.956 99.453 343.526 99.453 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-3" d="M 346.866 99.813 C 346.436 99.813 346.096 99.463 346.096 99.043 C 346.096 95.493 343.206 92.613 339.666 92.613 C 339.236 92.613 338.896 92.263 338.896 91.843 C 338.896 91.423 339.236 91.063 339.656 91.063 C 344.056 91.063 347.636 94.643 347.636 99.043 C 347.636 99.463 347.286 99.813 346.866 99.813 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-4" d="M 350.832 99.909 C 350.186 99.909 349.676 99.383 349.676 98.753 C 349.676 93.421 345.335 89.096 340.018 89.096 C 339.373 89.096 338.862 88.569 338.862 87.939 C 338.862 87.308 339.373 86.768 340.004 86.768 C 346.612 86.768 351.988 92.144 351.988 98.753 C 351.988 99.383 351.463 99.909 350.832 99.909 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path></svg>
+      <span><span class="header-call__label">Call Us Now</span><span class="header-call__number">(636) 556-4062</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Education</span>
+      <h1>From call to calendar</h1>
+      <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Education</a> / From call to calendar</p>
+      <div class="hero__actions">
+      <a class="cta-btn call-btn--primary" href="tel:+16365564062"><svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="616.9658 24.1281 268.2053 266.5682" fill="none" aria-hidden="true"><path opacity="0.4" d="M 337.696 102.913 L 334.426 106.183 C 334.066 105.863 333.716 105.533 333.376 105.193 C 332.346 104.153 331.416 103.063 330.586 101.923 C 329.766 100.783 329.106 99.643 328.626 98.513 C 328.146 97.373 327.906 96.283 327.906 95.243 C 327.906 94.563 328.026 93.913 328.266 93.313 C 328.506 92.703 328.886 92.143 329.416 91.643 C 330.056 91.013 330.756 90.703 331.496 90.703 C 331.776 90.703 332.056 90.763 332.306 90.883 C 332.566 91.003 332.796 91.183 332.976 91.443 L 335.296 94.713 C 335.476 94.963 335.606 95.193 335.696 95.413 C 335.786 95.623 335.836 95.833 335.836 96.023 C 335.836 96.263 335.766 96.503 335.626 96.733 C 335.496 96.963 335.306 97.203 335.066 97.443 L 334.306 98.233 C 334.196 98.343 334.146 98.473 334.146 98.633 C 334.146 98.713 334.156 98.783 334.176 98.863 C 334.206 98.943 334.236 99.003 334.256 99.063 C 334.436 99.393 334.746 99.823 335.186 100.343 C 335.636 100.863 336.116 101.393 336.636 101.923 C 336.996 102.273 337.346 102.613 337.696 102.913 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path d="M 347.875 107.033 C 347.875 107.313 347.825 107.603 347.725 107.883 C 347.695 107.963 347.665 108.043 347.625 108.123 C 347.455 108.483 347.235 108.823 346.945 109.143 C 346.455 109.683 345.915 110.073 345.305 110.323 C 345.295 110.323 345.285 110.333 345.275 110.333 C 344.685 110.573 344.045 110.703 343.355 110.703 C 342.335 110.703 341.245 110.463 340.095 109.973 C 338.945 109.483 337.795 108.823 336.655 107.993 C 336.265 107.703 335.875 107.413 335.505 107.103 L 338.775 103.833 C 339.055 104.043 339.305 104.203 339.515 104.313 C 339.565 104.333 339.625 104.363 339.695 104.393 C 339.775 104.423 339.855 104.433 339.945 104.433 C 340.115 104.433 340.245 104.373 340.355 104.263 L 341.115 103.513 C 341.365 103.263 341.605 103.073 341.835 102.953 C 342.065 102.813 342.295 102.743 342.545 102.743 C 342.735 102.743 342.935 102.783 343.155 102.873 C 343.375 102.963 343.605 103.093 343.855 103.263 L 347.165 105.613 C 347.425 105.793 347.605 106.003 347.715 106.253 C 347.815 106.503 347.875 106.753 347.875 107.033 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-1" d="M 341.118 99.389 C 340.934 99.389 340.788 99.239 340.788 99.059 C 340.788 98.901 340.63 98.571 340.364 98.284 C 340.103 98.005 339.816 97.842 339.576 97.842 C 339.391 97.842 339.246 97.693 339.246 97.512 C 339.246 97.333 339.396 97.183 339.576 97.183 C 340.004 97.183 340.454 97.415 340.848 97.83 C 341.216 98.22 341.452 98.703 341.452 99.055 C 341.452 99.239 341.302 99.389 341.118 99.389 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-2" d="M 343.526 99.453 C 343.096 99.453 342.756 99.103 342.756 98.683 C 342.756 98.313 342.386 97.543 341.766 96.873 C 341.156 96.223 340.486 95.843 339.926 95.843 C 339.496 95.843 339.156 95.493 339.156 95.073 C 339.156 94.653 339.506 94.303 339.926 94.303 C 340.926 94.303 341.976 94.843 342.896 95.813 C 343.756 96.723 344.306 97.853 344.306 98.673 C 344.306 99.103 343.956 99.453 343.526 99.453 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-3" d="M 346.866 99.813 C 346.436 99.813 346.096 99.463 346.096 99.043 C 346.096 95.493 343.206 92.613 339.666 92.613 C 339.236 92.613 338.896 92.263 338.896 91.843 C 338.896 91.423 339.236 91.063 339.656 91.063 C 344.056 91.063 347.636 94.643 347.636 99.043 C 347.636 99.463 347.286 99.813 346.866 99.813 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-4" d="M 350.832 99.909 C 350.186 99.909 349.676 99.383 349.676 98.753 C 349.676 93.421 345.335 89.096 340.018 89.096 C 339.373 89.096 338.862 88.569 338.862 87.939 C 338.862 87.308 339.373 86.768 340.004 86.768 C 346.612 86.768 351.988 92.144 351.988 98.753 C 351.988 99.383 351.463 99.909 350.832 99.909 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path></svg> <span class="cta-btn__text"><span class="cta-btn__label">Call Us Now</span><span class="cta-btn__number">(636) 556-4062</span></span></a>
+      <a class="cta-btn quote-btn--secondary" href="../contact-us/index.html"><svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path opacity="0.5" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z" fill="#1C274C"></path><path class="typing-path" d="M12 7.6V16.4"></path><path class="typing-path" d="M7.6 9.8V14.2"></path><path class="typing-path" d="M16.4 9.8V14.2"></path></svg> <span class="cta-btn__text"><span class="cta-btn__label">Get Your Free Quote</span><span class="cta-btn__number">Claim Yours!</span></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <article class="prose">
+        <p>Answering the call is the easy half. The value is in what happens next: the caller's details
+           captured properly, a real slot offered, and a confirmation that both sides can trust.</p>
+
+        <h2>Qualify before you book</h2>
+        <p>Not every call should become an appointment. Before checking the calendar, the receptionist
+           should know the job type, the suburb, how urgent it is, and whether the customer owns or
+           rents. Those four answers decide whether a slot is appropriate, whether a site visit is
+           needed first, and how long the job will take.</p>
+
+        <h2>One calendar, one source of truth</h2>
+        <p>The receptionist books against the same calendar your team uses, not a separate list that
+           someone has to reconcile later. That means real availability, travel buffers and job
+           durations, not a generic "we'll call you back". When the calendar is full, it offers the
+           next sensible option rather than an impossible one.</p>
+
+        <h2>Confirm and remind</h2>
+        <p>A booking is only useful if the customer turns up. An automatic confirmation with the time,
+           address and what to expect removes most of the doubt. A reminder the day before gives them
+           an easy way to reschedule instead of simply not being home.</p>
+
+        <h2>When to hand over</h2>
+        <p>Bookings that need a quote, a site inspection, or a judgement call should go to a person.
+           The receptionist should recognise those cases, capture the details, and tell the customer
+           what happens next. The goal is not to automate every conversation. It is to make sure the
+           straightforward ones never interrupt your day, and the complicated ones reach you complete.</p>
+      </article>
+
+      <aside class="stack">
+        <div class="quote-card">
+          <div class="quote-card__head">
+            <h2>Get Your Free Quote</h2>
+            <p>Tell us what you need and we will get back to you with a no-obligation quote.</p>
+          </div>
+          <div class="quote-card__panel">
+            <form id="forminator-module-2862" class="forminator-ui forminator-custom-form forminator-custom-form-2862 forminator-design--default forminator-enclosed forminator-size--small" method="post" data-forminator-render="0" data-form-id="2862" data-color-option="theme" data-design="default" data-grid="enclosed" novalidate data-demo-form>
+              <div role="alert" aria-live="polite" class="forminator-response-message forminator-error" aria-hidden="true"></div>
+              <div class="forminator-row">
+                <div id="name-1" class="forminator-field-name forminator-col forminator-col-12">
+                  <div class="forminator-field">
+                    <label for="forminator-field-name-1" class="forminator-label">Name <span class="forminator-required">*</span></label>
+                    <input type="text" name="name-1" value="" placeholder="" id="forminator-field-name-1" class="forminator-input forminator-name--field" aria-required="true" autocomplete="name">
+                  </div>
+                </div>
+              </div>
+              <div class="forminator-row">
+                <div id="email-1" class="forminator-field-email forminator-col forminator-col-12">
+                  <div class="forminator-field">
+                    <label for="forminator-field-email-1" class="forminator-label">Email Address <span class="forminator-required">*</span></label>
+                    <input type="email" name="email-1" value="" placeholder="" id="forminator-field-email-1" class="forminator-input forminator-email--field" data-required="1" aria-required="true" autocomplete="email">
+                  </div>
+                </div>
+              </div>
+              <div class="forminator-row">
+                <div id="phone-1" class="forminator-field-phone forminator-col forminator-col-12">
+                  <div class="forminator-field">
+                    <label for="forminator-field-phone-1" class="forminator-label">Phone <span class="forminator-required">*</span></label>
+                    <input type="text" name="phone-1" value="" placeholder="" id="forminator-field-phone-1" class="forminator-input forminator-field--phone" data-required="1" aria-required="true" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <div class="forminator-row">
+                <div id="textarea-1" class="forminator-field-textarea forminator-col forminator-col-12">
+                  <div class="forminator-field">
+                    <label for="forminator-field-textarea-1" class="forminator-label">Message</label>
+                    <textarea name="textarea-1" placeholder="" id="forminator-field-textarea-1" class="forminator-textarea" style="--forminator-textarea-min-height:60px;"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="forminator-row forminator-row-last">
+                <div class="forminator-col">
+                  <div class="forminator-field">
+                    <button class="forminator-button forminator-button-submit" type="submit">Get My Free Quote</button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-status" role="status" hidden></div>
+            </form>
+            <p class="quote-card__note"><svg><use href="#i-lock"></use></svg> Your information is safe. Demo form only.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <h3 class="step-card__title" style="margin-top:0">More Education</h3>
+          <ul style="list-style:none;padding:0;margin:0">
+            <li><a href="what-an-ai-receptionist-does.html">What an AI receptionist actually does</a></li>
+            <li><a href="cost-of-a-missed-call.html">The real cost of a missed call</a></li>
+            <li><a href="index.html">All education</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-band__inner">
+      <div><h2>See a call become a booking.</h2><p>Book a free demo and watch the whole flow, from hello to calendar entry.</p></div>
+      <div class="cta-contact">
+        <a class="cta-contact__item" href="tel:+16365564062"><svg><use href="#i-phone"></use></svg> (636) 556-4062</a>
+        <a class="btn btn--accent" href="../contact-us/index.html"><svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path opacity="0.5" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z" fill="#1C274C"></path><path class="typing-path" d="M12 7.6V16.4"></path><path class="typing-path" d="M7.6 9.8V14.2"></path><path class="typing-path" d="M16.4 9.8V14.2"></path></svg> Get a Free Quote</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <a class="brand" href="../index.html">
+        <img class="brand__mark" src="../assets/img/dark/td-mark.svg" alt="" width="56" height="56">
+        <span><span class="brand__name" style="color:#fff">Top Deck AI</span><span class="brand__tag">Strategy / Build / Growth</span></span>
+      </a>
+      <p style="margin-top:var(--sp-md)">Placeholder footer blurb describing the business in one or two sentences.</p>
+      <h3>Payment Methods</h3>
+      <div class="payments">
+  <div class="payments__list">
+    <img src="../assets/img/payment-mastercard.svg" alt="Mastercard" width="300" height="195">
+    <img src="../assets/img/payment-visa.svg" alt="Visa" width="300" height="195">
+    <img src="../assets/img/payment-bank-transfer.svg" alt="Bank transfer" width="300" height="195">
+  </div>
+      </div>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="../about-us/index.html">About Us</a></li>
+        <li><a href="../our-work/index.html">Our Work</a></li>
+        <li><a href="../services/index.html">Services</a></li>
+        <li><a href="../contact-us/index.html">Contact Us</a></li>
+        <li><a href="../privacy-policy/index.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Our Services</h3>
+      <ul>
+        <li><a href="../service/service-one.html">AI Receptionist</a></li>
+        <li><a href="../service/service-two.html">Lead Response System</a></li>
+        <li><a href="../service/service-three.html">Business Assistant</a></li>
+        <li><a href="../services/index.html">All Services</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contact Information</h3>
+      <ul>
+        <li class="contact-line"><svg><use href="#i-pin"></use></svg> 123 Example Street, Your City</li>
+        <li class="contact-line"><svg><use href="#i-phone"></use></svg> <a href="tel:+16365564062">(636) 556-4062</a></li>
+        <li class="contact-line"><svg><use href="#i-mail"></use></svg> <a href="mailto:hello@example.com">hello@example.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer__bottom">
+    <div class="container center">&copy; <span id="year">2025</span> Top Deck AI. All rights reserved. Template only - all content is placeholder.</div>
+  </div>
+</footer>
+
+<script src="../assets/js/template.js"></script>
+  <!-- Mobile sticky call bar. Matches the reference's .sticky-btn: hidden above 478px,
+       shown as a fixed bottom bar on phones, carrying the same ringing-phone pulse. -->
+  <div class="sticky-call">
+    <a class="cta-btn" href="tel:+16365564062">
+      <svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" viewBox="616.9658 24.1281 268.2053 266.5682" fill="none" aria-hidden="true"><path opacity="0.4" d="M 337.696 102.913 L 334.426 106.183 C 334.066 105.863 333.716 105.533 333.376 105.193 C 332.346 104.153 331.416 103.063 330.586 101.923 C 329.766 100.783 329.106 99.643 328.626 98.513 C 328.146 97.373 327.906 96.283 327.906 95.243 C 327.906 94.563 328.026 93.913 328.266 93.313 C 328.506 92.703 328.886 92.143 329.416 91.643 C 330.056 91.013 330.756 90.703 331.496 90.703 C 331.776 90.703 332.056 90.763 332.306 90.883 C 332.566 91.003 332.796 91.183 332.976 91.443 L 335.296 94.713 C 335.476 94.963 335.606 95.193 335.696 95.413 C 335.786 95.623 335.836 95.833 335.836 96.023 C 335.836 96.263 335.766 96.503 335.626 96.733 C 335.496 96.963 335.306 97.203 335.066 97.443 L 334.306 98.233 C 334.196 98.343 334.146 98.473 334.146 98.633 C 334.146 98.713 334.156 98.783 334.176 98.863 C 334.206 98.943 334.236 99.003 334.256 99.063 C 334.436 99.393 334.746 99.823 335.186 100.343 C 335.636 100.863 336.116 101.393 336.636 101.923 C 336.996 102.273 337.346 102.613 337.696 102.913 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path d="M 347.875 107.033 C 347.875 107.313 347.825 107.603 347.725 107.883 C 347.695 107.963 347.665 108.043 347.625 108.123 C 347.455 108.483 347.235 108.823 346.945 109.143 C 346.455 109.683 345.915 110.073 345.305 110.323 C 345.295 110.323 345.285 110.333 345.275 110.333 C 344.685 110.573 344.045 110.703 343.355 110.703 C 342.335 110.703 341.245 110.463 340.095 109.973 C 338.945 109.483 337.795 108.823 336.655 107.993 C 336.265 107.703 335.875 107.413 335.505 107.103 L 338.775 103.833 C 339.055 104.043 339.305 104.203 339.515 104.313 C 339.565 104.333 339.625 104.363 339.695 104.393 C 339.775 104.423 339.855 104.433 339.945 104.433 C 340.115 104.433 340.245 104.373 340.355 104.263 L 341.115 103.513 C 341.365 103.263 341.605 103.073 341.835 102.953 C 342.065 102.813 342.295 102.743 342.545 102.743 C 342.735 102.743 342.935 102.783 343.155 102.873 C 343.375 102.963 343.605 103.093 343.855 103.263 L 347.165 105.613 C 347.425 105.793 347.605 106.003 347.715 106.253 C 347.815 106.503 347.875 106.753 347.875 107.033 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-1" d="M 341.118 99.389 C 340.934 99.389 340.788 99.239 340.788 99.059 C 340.788 98.901 340.63 98.571 340.364 98.284 C 340.103 98.005 339.816 97.842 339.576 97.842 C 339.391 97.842 339.246 97.693 339.246 97.512 C 339.246 97.333 339.396 97.183 339.576 97.183 C 340.004 97.183 340.454 97.415 340.848 97.83 C 341.216 98.22 341.452 98.703 341.452 99.055 C 341.452 99.239 341.302 99.389 341.118 99.389 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-2" d="M 343.526 99.453 C 343.096 99.453 342.756 99.103 342.756 98.683 C 342.756 98.313 342.386 97.543 341.766 96.873 C 341.156 96.223 340.486 95.843 339.926 95.843 C 339.496 95.843 339.156 95.493 339.156 95.073 C 339.156 94.653 339.506 94.303 339.926 94.303 C 340.926 94.303 341.976 94.843 342.896 95.813 C 343.756 96.723 344.306 97.853 344.306 98.673 C 344.306 99.103 343.956 99.453 343.526 99.453 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-3" d="M 346.866 99.813 C 346.436 99.813 346.096 99.463 346.096 99.043 C 346.096 95.493 343.206 92.613 339.666 92.613 C 339.236 92.613 338.896 92.263 338.896 91.843 C 338.896 91.423 339.236 91.063 339.656 91.063 C 344.056 91.063 347.636 94.643 347.636 99.043 C 347.636 99.463 347.286 99.813 346.866 99.813 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path><path class="arch arch-4" d="M 350.832 99.909 C 350.186 99.909 349.676 99.383 349.676 98.753 C 349.676 93.421 345.335 89.096 340.018 89.096 C 339.373 89.096 338.862 88.569 338.862 87.939 C 338.862 87.308 339.373 86.768 340.004 86.768 C 346.612 86.768 351.988 92.144 351.988 98.753 C 351.988 99.383 351.463 99.909 350.832 99.909 Z" fill="#292D32" style="stroke-width: 1;" transform="matrix(11.137169837951658, 0, 0, 11.137169837951658, -3034.9790491309614, -942.2218768331685)"></path></svg>
+      <span class="cta-btn__text"><span class="cta-btn__label">Call Us Now</span><span class="cta-btn__number">(636) 556-4062</span></span>
+    </a>
+  </div>
+
+</body>
+</html>

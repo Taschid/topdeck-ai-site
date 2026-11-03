@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" role="img" aria-label="Brand D">
+  <rect width="200" height="80" rx="6" fill="#16181D" stroke="#2A2E36" stroke-width="2"/>
+  <circle cx="46" cy="40" r="16" fill="#E4501C" opacity=".9"/>
+  <rect x="78" y="32" width="24" height="3" fill="#E4501C"/>
+  <text x="78" y="52" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#D7DAE0">Brand D</text>
+</svg>

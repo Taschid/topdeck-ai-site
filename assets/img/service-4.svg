@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-label="Service 4">
+  <defs>
+    <pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="24" height="24" fill="#eef2f6"/><rect width="12" height="24" fill="#e6ecf3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="560" fill="url(#p)"/>
+  <rect x="64" y="190" width="672" height="4" fill="#0375c6" opacity=".35"/>
+  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
+        font-family="Arial, sans-serif" font-size="36" fill="#8b9096"
+        letter-spacing="2">Service 4</text>
+</svg>

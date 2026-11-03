@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>logo.svg - primitives vs trace</title>
+<style>
+ body{margin:0;background:#3a3a3a;font:13px system-ui;color:#eee;padding:16px}
+ .row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+ .panel{border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:center}
+ .dark{background:#1c1c1c}.light{background:#fff;color:#222}
+ img.big{width:400px;height:400px;display:block}
+ .cap{font-weight:600;margin-bottom:8px}
+ .sub{font-size:11px;opacity:.75;margin-top:6px}
+ .sizes{display:flex;gap:16px;align-items:flex-end;background:#fff;border-radius:10px;padding:12px;margin-top:12px}
+ .sb{text-align:center;font-size:10px;color:#333}
+ .sb img{display:block;background:#f0f0f0;border-radius:4px}
+</style></head><body>
+<div class="row">
+  <div>
+    <div class="cap">logo.svg - primitives (arcs + beziers)</div>
+    <div class="panel dark"><img class="big" src="logo.svg"></div>
+  </div>
+  <div>
+    <div class="cap">logo-subpixel-trace.svg - the previous trace</div>
+    <div class="panel dark"><img class="big" src="logo-subpixel-trace.svg"></div>
+  </div>
+  <div>
+    <div class="cap">logo-dark.svg on light</div>
+    <div class="panel light"><img class="big" src="logo-dark.svg"></div>
+    <div class="sizes">
+      <div class="sb"><img src="logo-dark.svg" width="128" height="128"><div>128</div></div>
+      <div class="sb"><img src="logo-dark.svg" width="64" height="64"><div>64</div></div>
+      <div class="sb"><img src="logo-dark.svg" width="32" height="32"><div>32</div></div>
+      <div class="sb"><img src="logo-dark.svg" width="16" height="16"><div>16</div></div>
+    </div>
+  </div>
+</div>
+</body></html>
